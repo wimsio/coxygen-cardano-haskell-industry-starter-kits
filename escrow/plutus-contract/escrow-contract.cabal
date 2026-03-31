@@ -1,0 +1,66 @@
+cabal-version:      3.0
+name:               escrow-contract
+version:            1.0.0.0
+synopsis:           Two-party escrow smart contract for Cardano
+description:        A Plutus V2 smart contract implementing secure escrow
+                    where a buyer locks funds with conditions for release or refund.
+license:            MIT
+license-file:       LICENSE
+author:             Cardano Escrow DApp
+maintainer:         developer@example.com
+category:           Blockchain
+build-type:         Simple
+
+common lang
+    default-language:   Haskell2010
+    ghc-options:
+        -Wall
+        -Wcompat
+        -Wincomplete-record-updates
+        -Wincomplete-uni-patterns
+        -Wredundant-constraints
+        -Werror
+        -fobject-code
+        -fno-ignore-interface-pragmas
+        -fno-omit-interface-pragmas
+        -fno-strictness
+        -fno-spec-constr
+        -fno-specialise
+
+library
+    import:           lang
+    exposed-modules:  EscrowContract
+    hs-source-dirs:   .
+    build-depends:
+        base                          >= 4.14 && < 5,
+        bytestring                    >= 0.10,
+        plutus-tx                     >= 1.0,
+        plutus-tx-plugin              >= 1.0,
+        plutus-ledger-api             >= 1.0,
+        plutus-script-utils           >= 1.0,
+        cardano-api                   >= 1.35
+
+executable serialize-escrow
+    import:           lang
+    main-is:          SerializeEscrow.hs
+    hs-source-dirs:   app
+    build-depends:
+        base                          >= 4.14 && < 5,
+        escrow-contract,
+        cardano-api                   >= 1.35,
+        bytestring                    >= 0.10,
+        plutus-ledger-api             >= 1.0,
+        serialise                     >= 0.2
+
+test-suite escrow-tests
+    import:           lang
+    type:             exitcode-stdio-1.0
+    main-is:          Spec.hs
+    hs-source-dirs:   test
+    build-depends:
+        base                          >= 4.14 && < 5,
+        escrow-contract,
+        plutus-tx                     >= 1.0,
+        plutus-ledger-api             >= 1.0,
+        tasty                         >= 1.4,
+        tasty-hunit                   >= 0.10

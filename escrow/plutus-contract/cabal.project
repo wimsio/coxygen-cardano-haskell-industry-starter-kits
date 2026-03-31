@@ -1,0 +1,43 @@
+-- Cabal project configuration for Cardano Escrow Contract
+-- Use with: cabal build all
+
+index-state: 2023-10-01T00:00:00Z
+
+packages: .
+
+-- Required for Plutus compilation
+package plutus-tx-plugin
+  flags: +defer-plugin-errors
+
+-- Cardano Haskell packages repository
+source-repository-package
+    type: git
+    location: https://github.com/input-output-hk/cardano-haskell-packages
+    tag: repo
+
+-- Additional repositories for Plutus dependencies
+repository cardano-haskell-packages
+    url: https://input-output-hk.github.io/cardano-haskell-packages
+    secure: True
+    root-keys:
+        3e0cce471cf09815f930210f7827266fd09045445d65f68b305f7e8717c84d09
+        443abb7fb497a134c343faf52f0b659bd7999bc06b7f63fa76dc99d631f9bea1
+        a]86a1f6ce86c449c46666bda44268677abf29b5b2d2eb5e7c2da2a1c2db919d0c
+        bcec67e8e99cabfa7764d75ad9b158d72bfacf70ca1d0ec8bc6b4406d1bf8413
+        c00c2ff9b1c0ec47c86b0c1c01e79cd31ba99b578d4e82ef3e16d40d8a48ad4f
+        d4a35cd3121aa00d18544bb0ac01c3e1691d618f462c46129271b7d5bf1a8ae7
+
+-- GHC options for Plutus
+program-options
+    ghc-options: -fobject-code -fno-ignore-interface-pragmas -fno-omit-interface-pragmas
+
+-- Allow newer versions for compatibility
+allow-newer:
+    *:base,
+    *:ghc,
+    *:template-haskell
+
+-- Constraints for reproducible builds
+constraints:
+    aeson >= 2.0,
+    hedgehog >= 1.0

@@ -1,0 +1,14 @@
+project_id = "mtexwlqkxitcpxnpohjt"
+
+# Environment variables for edge functions
+# These need to be set in Supabase project settings > Environment Variables
+# Required for cardano-tx-builder and escrow-transactions:
+# - BLOCKFROST_API_KEY: Blockfrost API key for Preprod
+# - ESCROW_SCRIPT_BASE64: Base64-encoded Plutus validator script
+# - ESCROW_SCRIPT_ADDRESS: On-chain script address (addr_test1...)
+
+[functions.cardano-tx-builder]
+verify_jwt = false
+
+[functions.send-notification]
+verify_jwt = false
