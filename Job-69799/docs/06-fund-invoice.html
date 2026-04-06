@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fund Invoice | Coxyfi User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .topbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-left,
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 16px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-1px);
+    }
+
+    .topbar-title {
+      text-align: center;
+      justify-self: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: #f3f4f6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .manual-search {
+      width: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      padding: 0;
+      border: 0;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .manual-search.active {
+      width: 220px;
+      opacity: 1;
+      pointer-events: auto;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .manual-search::placeholder {
+      color: rgba(255,255,255,0.55);
+    }
+
+    #manualSearchResults {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 96px;
+      width: 340px;
+      max-height: 360px;
+      overflow-y: auto;
+      background: #121b25;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      z-index: 999;
+      display: none;
+    }
+
+    #manualSearchResults.active {
+      display: block;
+    }
+
+    .search-result-item {
+      display: block;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover {
+      background: rgba(255,255,255,0.06);
+      text-decoration: none;
+    }
+
+    .search-result-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .search-result-meta {
+      font-size: 0.82rem;
+      color: #b8c0cc;
+      margin-top: 4px;
+    }
+
+    .search-result-empty {
+      padding: 14px;
+      color: #b8c0cc;
+      font-size: 0.9rem;
+    }
+
+    .sidebar.collapsed {
+      width: 0 !important;
+      min-width: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border: 0 !important;
+    }
+
+    .sidebar.collapsed * {
+      display: none !important;
+    }
+
+    .content-wrap.expanded {
+      flex: 1;
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      padding-left: 34px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .topbar-left,
+      .topbar-right {
+        justify-content: center;
+      }
+
+      .topbar-title {
+        order: -1;
+        white-space: normal;
+      }
+
+      .manual-search.active {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      #manualSearchResults {
+        left: 0;
+        width: 100%;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .sidebar,
+      .footer-nav {
+        display: none !important;
+      }
+
+      .content-wrap,
+      .doc {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="manualSidebar">
+      <div class="brand">
+        <div class="brand-mark">IF</div>
+        <div class="brand-text">
+          <h1>Coxyfi</h1>
+          <p>User Help Documentation</p>
+        </div>
+      </div>
+      <div class="nav-title">Manual Sections</div>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="01-welcome.html"><span class="nav-index">01.</span><span>Welcome</span></a></li>
+        <li><a class="nav-link" href="02-getting-started.html"><span class="nav-index">02.</span><span>Get Started</span></a></li>
+        <li><a class="nav-link" href="03-connect-wallet.html"><span class="nav-index">03.</span><span>Connect Wallet</span></a></li>
+        <li><a class="nav-link" href="04-dashboard-overview.html"><span class="nav-index">04.</span><span>Dashboard Overview</span></a></li>
+        <li><a class="nav-link" href="05-create-invoice.html"><span class="nav-index">05.</span><span>Create Invoice</span></a></li>
+        <li><a class="nav-link active" href="06-fund-invoice.html"><span class="nav-index">06.</span><span>Fund Invoice</span></a></li>
+        <li><a class="nav-link" href="07-repay-invoice.html"><span class="nav-index">07.</span><span>Repay Invoice</span></a></li>
+        <li><a class="nav-link" href="08-history-search.html"><span class="nav-index">08.</span><span>Transaction History</span></a></li>
+        <li><a class="nav-link" href="09-security-wallet-binding.html"><span class="nav-index">09.</span><span>Security & Wallet Binding</span></a></li>
+        <li><a class="nav-link" href="10-troubleshooting.html"><span class="nav-index">10.</span><span>Troubleshooting</span></a></li>
+        <li><a class="nav-link" href="11-faq-support.html"><span class="nav-index">11.</span><span>FAQ & Support</span></a></li>
+        <li><a class="nav-link" href="12-conclusion.html"><span class="nav-index">12.</span><span>Conclusion</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="content-wrap" id="contentWrap">
+      <div class="topbar">
+        <div class="topbar-left search-wrap">
+          <button class="icon-btn" id="toggleSidebarBtn" title="Show / Hide Navigation" aria-label="Toggle Navigation">
+            ☰
+          </button>
+
+          <button class="icon-btn" id="toggleSearchBtn" title="Search Manual" aria-label="Search Manual">
+            🔍
+          </button>
+
+          <input
+            type="text"
+            id="manualSearchInput"
+            class="manual-search"
+            placeholder="Search documentation..."
+            aria-label="Search documentation"
+          />
+
+          <div id="manualSearchResults"></div>
+        </div>
+
+        <div class="topbar-title">Invoice Financing DApp User Help Documentation</div>
+
+        <div class="topbar-right">
+          <button class="icon-btn" id="printPageBtn" title="Print Page" aria-label="Print Page">
+            🖨
+          </button>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="hero-logo">Coxyfi Manual</div>
+        <h1 class="page-title">💸 Fund an Invoice</h1>
+        <div class="meta">
+          <div><strong>Section:</strong> 06. Fund Invoice</div>
+          <div><strong>Use:</strong> How investors review invoice details and provide funding to available invoices.</div>
+        </div>
+        <hr class="divider" />
+
+        <p class="lead">Investors use the Available Invoices list to review open invoice opportunities and fund one by one directly from the dashboard.</p>
+
+        <section class="section">
+          <h2 id="before-funding">6.1 Before Funding</h2>
+          <ul>
+            <li>Read the face value and repayment amount shown on the invoice card.</li>
+            <li>Open the linked invoice document or preview image if provided.</li>
+            <li>Make sure your wallet holds enough ADA for the funding amount and transaction fee.</li>
+          </ul>
+        </section>
+
+        <div class="image-placeholder">
+          
+          <div class="screenshot">
+            <img src="images/coxyfi-fund-invoice.png" alt="Fund Invoice Page">
+          </div>
+          
+        </div>
+
+        <section class="section">
+          <h2 id="funding-steps">6.2 Funding Steps</h2>
+          <ul>
+            <li>Click Fund Invoice on the chosen card.</li>
+            <li>Review the wallet prompt and confirm the transaction.</li>
+            <li>Wait for the status panel to confirm funding.</li>
+            <li>After funding, the invoice should disappear from the Available Invoices section and move into the issuer repayment workflow.</li>
+          </ul>
+        </section>
+
+        <div class="callout">Only fund after reviewing the invoice details carefully. Once submitted, the funding action is an on-chain transaction and cannot be reversed by refreshing the page.</div>
+
+        <div class="footer-nav">
+          <a href="05-create-invoice.html">← Create Invoice</a>
+          <a href="07-repay-invoice.html">Repay Invoice →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="search-index.js"></script>
+  <script src="manual-search.js"></script>
+  <script>
+    const sidebar = document.getElementById("manualSidebar");
+    const contentWrap = document.getElementById("contentWrap");
+    const toggleSidebarBtn = document.getElementById("toggleSidebarBtn");
+    const printPageBtn = document.getElementById("printPageBtn");
+
+    toggleSidebarBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("collapsed");
+      contentWrap.classList.toggle("expanded");
+    });
+
+    printPageBtn.addEventListener("click", function () {
+      window.print();
+    });
+  </script>
+</body>
+</html>

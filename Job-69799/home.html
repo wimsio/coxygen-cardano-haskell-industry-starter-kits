@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>InvoiceFi - Invoice Financing DApp</title>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700;800&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --red: #dc2626;
+      --red-dark: #991b1b;
+      --red-light: #fee2e2;
+      --green: #16a34a;
+      --green-dark: #15803d;
+      --green-light: #dcfce7;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --sidebar-width: 280px;
+    }
+
+    body {
+      font-family: 'Work Sans', sans-serif;
+      background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Header */
+    .top-header {
+      background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%);
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--white), var(--red-light));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--white);
+      font-family: 'Crimson Pro', serif;
+      letter-spacing: -0.5px;
+    }
+
+    .breadcrumb {
+      color: rgba(255,255,255,0.8);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .breadcrumb span {
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .home-link {
+      padding: 10px 20px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 8px;
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .home-link:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    .notification-icon {
+      position: relative;
+      width: 42px;
+      height: 42px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .notification-icon:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.05);
+    }
+
+    .btn {
+      padding: 11px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn.primary {
+      background: var(--white);
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255,255,255,0.3);
+    }
+
+    /* Main Layout */
+    .main-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--white);
+      border-right: 1px solid var(--gray-200);
+      padding: 32px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.03);
+    }
+
+    .sidebar-section {
+      margin-bottom: 36px;
+    }
+
+    .sidebar-section-title {
+      color: var(--gray-500);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 28px;
+      margin-bottom: 14px;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+    }
+
+    .sidebar-item {
+      margin-bottom: 6px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 28px;
+      color: var(--gray-600);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.3s;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      position: relative;
+    }
+
+    .sidebar-link:hover {
+      background: var(--gray-50);
+      color: var(--gray-900);
+    }
+
+    .sidebar-link.active {
+      background: var(--red-light);
+      color: var(--red-dark);
+      border-left-color: var(--red);
+      font-weight: 700;
+    }
+
+    .sidebar-icon {
+      font-size: 20px;
+      width: 22px;
+      text-align: center;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 40px;
+      background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border: 2px solid var(--gray-100);
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--red), var(--green));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      border-color: var(--red-light);
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .stat-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    .stat-icon.red {
+      background: linear-gradient(135deg, var(--red-light), var(--white));
+      border: 2px solid var(--red);
+    }
+
+    .stat-icon.green {
+      background: linear-gradient(135deg, var(--green-light), var(--white));
+      border: 2px solid var(--green);
+    }
+
+    .stat-icon.mixed {
+      background: linear-gradient(135deg, var(--red-light), var(--green-light));
+      border: 2px solid var(--gray-300);
+    }
+
+    .stat-info h3 {
+      font-size: 13px;
+      color: var(--gray-600);
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .stat-badge.positive {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .stat-badge.active {
+      background: var(--red-light);
+      color: var(--red-dark);
+    }
+
+    .stat-badge.yield {
+      background: var(--gray-100);
+      color: var(--gray-700);
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-top: 10px;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    /* Action Cards Grid */
+    .action-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .action-card {
+      background: var(--white);
+      border: 2px solid var(--gray-100);
+      border-radius: 20px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -100%;
+      width: 100%;
+      height: 4px;
+      transition: left 0.6s;
+    }
+
+    .action-card.red::before {
+      background: linear-gradient(90deg, transparent, var(--red), transparent);
+    }
+
+    .action-card.green::before {
+      background: linear-gradient(90deg, transparent, var(--green), transparent);
+    }
+
+    .action-card.mixed::before {
+      background: linear-gradient(90deg, transparent, var(--red), var(--green), transparent);
+    }
+
+    .action-card:hover::before {
+      left: 100%;
+    }
+
+    .action-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.12);
+    }
+
+    .action-card.red:hover {
+      border-color: var(--red);
+      background: linear-gradient(135deg, var(--white) 0%, var(--red-light) 100%);
+    }
+
+    .action-card.green:hover {
+      border-color: var(--green);
+      background: linear-gradient(135deg, var(--white) 0%, var(--green-light) 100%);
+    }
+
+    .action-card.mixed:hover {
+      border-color: var(--gray-400);
+      background: linear-gradient(135deg, var(--red-light) 0%, var(--green-light) 100%);
+    }
+
+    .action-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: all 0.3s;
+    }
+
+    .action-card.red .action-icon {
+      background: linear-gradient(135deg, var(--red-light), var(--white));
+      border: 2px solid var(--red);
+    }
+
+    .action-card.green .action-icon {
+      background: linear-gradient(135deg, var(--green-light), var(--white));
+      border: 2px solid var(--green);
+    }
+
+    .action-card.mixed .action-icon {
+      background: linear-gradient(135deg, var(--red-light), var(--green-light));
+      border: 2px solid var(--gray-300);
+    }
+
+    .action-card:hover .action-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .action-card h3 {
+      font-size: 22px;
+      color: var(--gray-900);
+      margin-bottom: 14px;
+      font-weight: 700;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    .action-card p {
+      color: var(--gray-600);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    .action-card .btn {
+      width: auto;
+      min-width: 160px;
+    }
+
+    .btn.success {
+      background: linear-gradient(135deg, var(--green), var(--green-dark));
+      color: var(--white);
+    }
+
+    .btn.success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn.danger {
+      background: linear-gradient(135deg, var(--red), var(--red-dark));
+      color: var(--white);
+    }
+
+    .btn.danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn.secondary {
+      background: var(--gray-100);
+      color: var(--gray-800);
+      border: 2px solid var(--gray-200);
+    }
+
+    .btn.secondary:hover {
+      background: var(--gray-200);
+      border-color: var(--gray-300);
+    }
+
+    /* Page Sections */
+    .page {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Card */
+    .section-card {
+      background: var(--white);
+      border: 2px solid var(--gray-100);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    .section-description {
+      color: var(--gray-600);
+      font-size: 15px;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* Transaction History Table */
+    .tx-table-wrapper {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 2px solid var(--gray-100);
+    }
+
+    .tx-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+    }
+
+    .tx-table thead {
+      background: linear-gradient(135deg, var(--red-light), var(--white));
+    }
+
+    .tx-table th {
+      padding: 18px 20px;
+      text-align: left;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--red-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 2px solid var(--red);
+    }
+
+    .tx-table td {
+      padding: 18px 20px;
+      color: var(--gray-700);
+      font-size: 14px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .tx-table tbody tr:hover {
+      background: var(--red-light);
+    }
+
+    .tx-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 14px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+
+    .status-badge.success {
+      background: var(--green-light);
+      color: var(--green-dark);
+      border: 1px solid var(--green);
+    }
+
+    .status-badge.pending {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border: 1px solid var(--gray-300);
+    }
+
+    .status-badge.failed {
+      background: var(--red-light);
+      color: var(--red-dark);
+      border: 1px solid var(--red);
+    }
+
+    .tx-hash-link {
+      color: var(--red);
+      text-decoration: none;
+      font-weight: 600;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+    }
+
+    .tx-hash-link:hover {
+      text-decoration: underline;
+      color: var(--red-dark);
+    }
+
+    /* Search Box */
+    .search-box {
+      background: var(--gray-50);
+      border: 2px solid var(--gray-200);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 10px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      color: var(--gray-400);
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 14px 18px 14px 52px;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      font-size: 14px;
+      color: var(--gray-800);
+      font-family: 'Work Sans', sans-serif;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px var(--red-light);
+    }
+
+    input::placeholder {
+      color: var(--gray-400);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 14px;
+    }
+
+    .btn-group .btn {
+      flex: 1;
+    }
+
+    /* Invoice Grid */
+    .invoice-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .invoice-card {
+      background: var(--white);
+      border: 2px solid var(--gray-100);
+      border-radius: 16px;
+      padding: 24px;
+      transition: all 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .invoice-card:hover {
+      border-color: var(--green);
+      box-shadow: 0 12px 32px rgba(22, 163, 74, 0.12);
+      transform: translateY(-6px);
+    }
+
+    .invoice-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      background: var(--gray-50);
+      cursor: pointer;
+      border: 2px solid var(--gray-100);
+    }
+
+    .invoice-card h4 {
+      font-size: 18px;
+      color: var(--gray-900);
+      margin-bottom: 12px;
+      font-weight: 700;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    .invoice-card p {
+      color: var(--gray-600);
+      font-size: 14px;
+      margin: 8px 0;
+    }
+
+    .nft-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--red);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      margin: 12px 0;
+    }
+
+    .nft-link:hover {
+      text-decoration: underline;
+      color: var(--red-dark);
+    }
+
+    .invoice-card .btn {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--gray-500);
+    }
+
+    .empty-state svg {
+      margin-bottom: 24px;
+      opacity: 0.4;
+    }
+
+    .empty-state p {
+      font-size: 15px;
+      color: var(--gray-500);
+    }
+
+    /* Modal */
+    .nm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 20px;
+    }
+
+    .nm-modal {
+      width: min(540px, 100%);
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: 20px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+      padding: 32px;
+    }
+
+    .nm-title {
+      margin: 0 0 18px;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gray-900);
+      font-family: 'Crimson Pro', serif;
+    }
+
+    .nm-body {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--gray-700);
+    }
+
+    .nm-body code {
+      display: block;
+      margin-top: 14px;
+      padding: 14px;
+      background: var(--gray-50);
+      border-radius: 10px;
+      font-size: 12px;
+      color: var(--gray-700);
+      word-break: break-all;
+      font-family: 'Courier New', monospace;
+      border: 1px solid var(--gray-200);
+    }
+
+    .nm-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 28px;
+      gap: 14px;
+    }
+
+    .nm-btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 10px;
+      background: var(--red);
+      color: var(--white);
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .nm-btn:hover {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(220, 38, 38, 0.3);
+    }
+
+    /* Log Panel */
+    .log-panel {
+      background: var(--white);
+      border: 2px solid var(--gray-100);
+      border-radius: 16px;
+      padding: 28px;
+      margin-top: 40px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .log-panel h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--green-dark);
+      margin-bottom: 16px;
+      font-family: 'Crimson Pro', serif;
+    }
+
+    #log {
+      background: var(--gray-50);
+      padding: 18px;
+      border-radius: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--gray-700);
+      border: 2px solid var(--green-light);
+      min-height: 60px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .stats-grid,
+      .action-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .invoice-grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      .main-content {
+        padding: 24px;
+      }
+
+      .stats-grid,
+      .action-cards-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .invoice-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .top-header {
+        padding: 16px 20px;
+      }
+
+      .home-link {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top Header -->
+  <header class="top-header">
+    <div class="logo-section">
+      <div class="logo-icon">📄</div>
+      <div class="logo-text">CoxyFi</div>
+    </div>
+    <div class="breadcrumb">
+      Main / <span id="currentPageName">Dashboard</span>
+    </div>
+    <div class="header-right">
+      <a href="index.html" class="home-link">
+        🏠 Home
+      </a>
+      <div class="notification-icon">🔔</div>
+      <button id="connect" class="btn primary">💰 Connect Wallet</button>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="main-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <ul class="sidebar-menu">
+          <li class="sidebar-item">
+            <a class="sidebar-link active" onclick="showPage('homePage')" data-page-name="Dashboard">
+              <span class="sidebar-icon">📊</span>
+              Dashboard
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" onclick="showPage('createPage')" data-page-name="Create Invoice">
+              <span class="sidebar-icon">📝</span>
+              Create Invoice
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" onclick="showPage('availablePage')" data-page-name="Marketplace">
+              <span class="sidebar-icon">🛒</span>
+              Marketplace
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" onclick="showPage('fundedPage')" data-page-name="My Portfolio">
+              <span class="sidebar-icon">💼</span>
+              My Portfolio
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a class="sidebar-link" onclick="showPage('historyPage')" data-page-name="History">
+              <span class="sidebar-icon">🔍</span>
+              History
+            </a>
+          </li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- HOME PAGE / DASHBOARD -->
+      <div id="homePage" class="page active">
+        <!-- Live Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon red">💰</div>
+              <div class="stat-info">
+                <h3>Total Value Locked</h3>
+                <span class="stat-badge positive">+9.5%</span>
+              </div>
+            </div>
+            <div class="stat-value" id="statTotalFunded">₳0</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon green">📄</div>
+              <div class="stat-info">
+                <h3>Minted Invoices</h3>
+                <span class="stat-badge active">Live</span>
+              </div>
+            </div>
+            <div class="stat-value" id="statMintedInvoices">0</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <div class="stat-icon mixed">📈</div>
+              <div class="stat-info">
+                <h3>Current APY</h3>
+                <span class="stat-badge yield">Avg Yield</span>
+              </div>
+            </div>
+            <div class="stat-value" id="statAPY">--</div>
+          </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="action-cards-grid">
+          <div class="action-card red" onclick="showPage('createPage')">
+            <div class="action-icon">📄</div>
+            <h3>Mint Invoice</h3>
+            <p>Transform your outstanding receivables into tradable NFTs and unlock instant working capital for your business.</p>
+            <button class="btn danger">Tokenize Now →</button>
+          </div>
+
+          <div class="action-card green" onclick="showPage('availablePage')">
+            <div class="action-icon">🛒</div>
+            <h3>Fund Invoices</h3>
+            <p>Explore verified invoice NFTs in our marketplace and earn competitive returns by providing liquidity to businesses.</p>
+            <button class="btn success">Explore Market 🔍</button>
+          </div>
+
+          <div class="action-card mixed" onclick="showPage('fundedPage')">
+            <div class="action-icon">💳</div>
+            <h3>Repay Active</h3>
+            <p>Manage your funded invoices, track repayment schedules, and maintain your on-chain credit reputation score.</p>
+            <button class="btn secondary">Manage Debt ⏱️</button>
+          </div>
+        </div>
+
+        <!-- Recent General Transaction History -->
+        <div class="section-card">
+          <div class="section-header">
+            <h2 class="section-title">🌐 Platform Transaction History</h2>
+            <button id="downloadTxCSV" class="btn secondary" style="font-size: 13px; padding: 10px 20px;">
+              📥 Download CSV
+            </button>
+          </div>
+          <p class="section-description">
+            View all recent transactions across the InvoiceFi platform ecosystem
+          </p>
+
+          <div class="tx-table-wrapper">
+            <table class="tx-table">
+              <thead>
+                <tr>
+                  <th>DATE & TIME</th>
+                  <th>INVOICE ID</th>
+                  <th>TYPE</th>
+                  <th>AMOUNT</th>
+                  <th>STATUS</th>
+                  <th>TX HASH</th>
+                </tr>
+              </thead>
+              <tbody id="recentTxBody">
+                <tr><td colspan="6" style="padding:30px; text-align:center; color:#9ca3af;">Loading platform transactions...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREATE INVOICE PAGE -->
+      <div id="createPage" class="page">
+        <div class="section-card">
+          <h2 class="section-title">📝 Create Invoice NFT</h2>
+          <p class="section-description">
+            Upload your invoice document to mint it as an NFT. Your invoice will be automatically listed on-chain for potential funders to discover.
+          </p>
+
+          <div class="form-group">
+            <label>📄 Invoice Document</label>
+            <input type="file" id="invoiceUpload" style="padding: 14px;" />
+          </div>
+
+          <div class="form-group">
+            <label>💵 Face Value (ADA)</label>
+            <input type="number" id="faceValue" placeholder="Enter face value amount" style="padding-left: 18px;" />
+          </div>
+
+          <div class="form-group">
+            <label>💰 Repayment Amount (ADA)</label>
+            <input type="number" id="repayment" placeholder="Enter total repayment amount" style="padding-left: 18px;" />
+          </div>
+
+          <button id="createInvoice" class="btn success" style="width: 100%; margin-top: 24px; padding: 18px; font-size: 16px;">
+            ✨ Create Invoice NFT
+          </button>
+        </div>
+      </div>
+
+      <!-- AVAILABLE INVOICES PAGE (Marketplace) -->
+      <div id="availablePage" class="page">
+        <div class="section-card">
+          <h2 class="section-title">💼 Invoice Marketplace</h2>
+          <p class="section-description">
+            Browse verified invoice NFTs available for funding. Each invoice has been minted on-chain and is ready for investment.
+          </p>
+
+          <div id="invoiceGrid" class="invoice-grid">
+            <div class="empty-state">
+              <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke-width="2"/>
+                <path d="M12 6v6l4 2" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              <p>No invoices available for funding at the moment. Check back soon!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FUNDED INVOICES PAGE -->
+      <div id="fundedPage" class="page">
+        <div class="section-card">
+          <h2 class="section-title">📈 Your Investment Portfolio</h2>
+          <p class="section-description">
+            Track your funded invoices, monitor repayment status, and manage your active investments on the platform.
+          </p>
+
+          <div id="myinvoiceGrid" class="invoice-grid">
+            <div class="empty-state">
+              <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M3 3h18v18H3V3z" stroke-width="2"/>
+                <path d="M9 9h6v6H9V9z" stroke-width="2"/>
+              </svg>
+              <p>You haven't funded any invoices yet. Visit the Marketplace to start investing!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRANSACTION HISTORY PAGE -->
+      <div id="historyPage" class="page">
+        <div class="section-card">
+          <h2 class="section-title">🔍 Wallet Transaction Lookup</h2>
+          <p class="section-description">
+            Search and view all Invoice Finance transactions for any specific wallet address on the platform.
+          </p>
+
+          <div class="search-box">
+            <div class="form-group">
+              <label for="txAddr">🔑 Wallet Address</label>
+              <div class="input-wrapper">
+                <span class="input-icon">🔐</span>
+                <input 
+                  type="text" 
+                  id="txAddr" 
+                  placeholder="Enter Cardano wallet address (addr1...)" 
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+              </div>
+            </div>
+
+            <div class="btn-group">
+              <button class="btn danger" id="loadTxHistory">
+                🔍 Search Transactions
+              </button>
+              <button class="btn secondary" id="clearTxHistory">
+                ✕ Clear Results
+              </button>
+            </div>
+          </div>
+
+          <div id="txResults"></div>
+        </div>
+      </div>
+
+      <!-- Log Panel -->
+      <div class="log-panel">
+        <h3>🔔 Status & Activity</h3>
+        <div id="log">Waiting for wallet connection…</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Notification Modal -->
+  <div id="notifyModal" class="nm-overlay" style="display:none;">
+    <div class="nm-modal" role="dialog" aria-modal="true" aria-labelledby="nmTitle">
+      <h3 id="nmTitle" class="nm-title"></h3>
+      <div id="nmBody" class="nm-body"></div>
+      <div class="nm-actions">
+        <button id="nmOk" class="nm-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(pageId) {
+      // Update sidebar active state
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(pageId)) {
+          link.classList.add('active');
+        }
+      });
+      
+      // Hide all pages
+      document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+      });
+      
+      // Show selected page
+      const selectedPage = document.getElementById(pageId);
+      if (selectedPage) {
+        selectedPage.classList.add('active');
+      }
+      
+      // Update breadcrumb
+      const activeLink = document.querySelector('.sidebar-link.active');
+      const pageName = activeLink ? activeLink.getAttribute('data-page-name') : 'Dashboard';
+      const breadcrumb = document.getElementById('currentPageName');
+      if (breadcrumb) {
+        breadcrumb.textContent = pageName;
+      }
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Update empty states when invoices are loaded
+    function updateEmptyStates() {
+      const invoiceGrid = document.getElementById('invoiceGrid');
+      const myInvoiceGrid = document.getElementById('myinvoiceGrid');
+      
+      if (invoiceGrid && invoiceGrid.children.length > 1) {
+        const emptyState = invoiceGrid.querySelector('.empty-state');
+        if (emptyState) emptyState.remove();
+      }
+      
+      if (myInvoiceGrid && myInvoiceGrid.children.length > 1) {
+        const emptyState = myInvoiceGrid.querySelector('.empty-state');
+        if (emptyState) emptyState.remove();
+      }
+    }
+
+    setInterval(updateEmptyStates, 1000);
+  </script>
+
+  <!-- Main JavaScript -->
+  <script type="module" src="new.js"></script>
+</body>
+</html>

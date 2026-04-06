@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome | Coxyfi User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .topbar {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .topbar-left,
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 16px;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-1px);
+    }
+
+    .topbar-title {
+      text-align: center;
+      justify-self: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: #f3f4f6;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .manual-search {
+      width: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      padding: 0;
+      border: 0;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .manual-search.active {
+      width: 220px;
+      opacity: 1;
+      pointer-events: auto;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .manual-search::placeholder {
+      color: rgba(255,255,255,0.55);
+    }
+
+    #manualSearchResults {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 96px;
+      width: 340px;
+      max-height: 360px;
+      overflow-y: auto;
+      background: #121b25;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+      z-index: 999;
+      display: none;
+    }
+
+    #manualSearchResults.active {
+      display: block;
+    }
+
+    .search-result-item {
+      display: block;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .search-result-item:last-child {
+      border-bottom: none;
+    }
+
+    .search-result-item:hover {
+      background: rgba(255,255,255,0.06);
+      text-decoration: none;
+    }
+
+    .search-result-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .search-result-meta {
+      font-size: 0.82rem;
+      color: #b8c0cc;
+      margin-top: 4px;
+    }
+
+    .search-result-empty {
+      padding: 14px;
+      color: #b8c0cc;
+      font-size: 0.9rem;
+    }
+
+    .sidebar.collapsed {
+      width: 0 !important;
+      min-width: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      border: 0 !important;
+    }
+
+    .sidebar.collapsed * {
+      display: none !important;
+    }
+
+    .content-wrap.expanded {
+      flex: 1;
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      padding-left: 34px;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .topbar-left,
+      .topbar-right {
+        justify-content: center;
+      }
+
+      .topbar-title {
+        order: -1;
+        white-space: normal;
+      }
+
+      .manual-search.active {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      #manualSearchResults {
+        left: 0;
+        width: 100%;
+      }
+    }
+
+    @media print {
+      .topbar,
+      .sidebar,
+      .footer-nav {
+        display: none !important;
+      }
+
+      .content-wrap,
+      .doc {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="manualSidebar">
+      <div class="brand">
+        <div class="brand-mark">IF</div>
+        <div class="brand-text">
+          <h1>Coxyfi</h1>
+          <p>User Help Documentation</p>
+        </div>
+      </div>
+      <div class="nav-title">Manual Sections</div>
+      <ul class="nav-list" id="manualNavList">
+        <li><a class="nav-link active" href="01-welcome.html"><span class="nav-index">01.</span><span>Welcome</span></a></li>
+        <li><a class="nav-link" href="02-getting-started.html"><span class="nav-index">02.</span><span>Get Started</span></a></li>
+        <li><a class="nav-link" href="03-connect-wallet.html"><span class="nav-index">03.</span><span>Connect Wallet</span></a></li>
+        <li><a class="nav-link" href="04-dashboard-overview.html"><span class="nav-index">04.</span><span>Dashboard Overview</span></a></li>
+        <li><a class="nav-link" href="05-create-invoice.html"><span class="nav-index">05.</span><span>Create Invoice</span></a></li>
+        <li><a class="nav-link" href="06-fund-invoice.html"><span class="nav-index">06.</span><span>Fund Invoice</span></a></li>
+        <li><a class="nav-link" href="07-repay-invoice.html"><span class="nav-index">07.</span><span>Repay Invoice</span></a></li>
+        <li><a class="nav-link" href="08-history-search.html"><span class="nav-index">08.</span><span>Transaction History</span></a></li>
+        <li><a class="nav-link" href="09-security-wallet-binding.html"><span class="nav-index">09.</span><span>Security & Wallet Binding</span></a></li>
+        <li><a class="nav-link" href="10-troubleshooting.html"><span class="nav-index">10.</span><span>Troubleshooting</span></a></li>
+        <li><a class="nav-link" href="11-faq-support.html"><span class="nav-index">11.</span><span>FAQ & Support</span></a></li>
+        <li><a class="nav-link" href="12-conclusion.html"><span class="nav-index">12.</span><span>Conclusion</span></a></li>
+      </ul>
+    </aside>
+
+    <main class="content-wrap" id="contentWrap">
+      <div class="topbar">
+        <div class="topbar-left search-wrap">
+          <button class="icon-btn" id="toggleSidebarBtn" title="Show / Hide Navigation" aria-label="Toggle Navigation">
+            ☰
+          </button>
+
+          <button class="icon-btn" id="toggleSearchBtn" title="Search Manual" aria-label="Search Manual">
+            🔍
+          </button>
+
+          <input
+            type="text"
+            id="manualSearchInput"
+            class="manual-search"
+            placeholder="Search documentation..."
+            aria-label="Search documentation"
+          />
+
+          <div id="manualSearchResults"></div>
+        </div>
+
+        <div class="topbar-title">Invoice Financing DApp User Help Documentation</div>
+
+        <div class="topbar-right">
+          <button class="icon-btn" id="printPageBtn" title="Print Page" aria-label="Print Page">
+            🖨
+          </button>
+        </div>
+      </div>
+
+      <div class="doc">
+        <div class="hero-logo">Coxyfi Manual</div>
+        <h1 class="page-title">👋 Welcome to the Invoice Financing DApp User Manual</h1>
+        <div class="meta">
+          <div><strong>Section:</strong> 01. Welcome</div>
+          <div><strong>Use:</strong> Overview of the platform, what the dApp does, and how this guide is organized.</div>
+        </div>
+        <hr class="divider" />
+
+        <p class="lead">Welcome to the official user manual for the Invoice Financing DApp — your step-by-step guide to creating, funding, and repaying tokenized invoices on Cardano.</p>
+
+        <ul class="checklist">
+          <li>Connect a verified wallet and access your account securely.</li>
+          <li>Create invoice records by uploading a document and minting its invoice NFT.</li>
+          <li>Browse available invoices and fund opportunities as an investor.</li>
+          <li>Repay funded invoices and track all activity through the transaction tools.</li>
+        </ul>
+
+        <div class="callout">Use the sidebar to move through the guide in order. Each page keeps the same layout so users can navigate the manual without losing context.</div>
+
+        <section class="section">
+          <h2 id="how-to-use-this-manual">1.1 How to Use This Manual</h2>
+          <ul>
+            <li>Use the sections on the left to move page by page through the full workflow.</li>
+            <li>Add your real application screenshots inside each placeholder area after exporting them from your dApp.</li>
+            <li>Keep this manual in the same folder as the shared stylesheet so all pages preserve the same layout and brand look.</li>
+          </ul>
+        </section>
+
+        <div class="image-placeholder">
+          
+          <div class="screenshot">
+            <img src="images/coxyfi-land.png" alt="Create Invoice Page">
+          </div>
+          
+        </div>
+
+        <section class="section">
+          <h2 id="what-users-can-do-in-the-dapp">1.2 What Users Can Do in the DApp</h2>
+          <ul>
+            <li>Issuers can upload invoice documents and mint invoice NFTs linked to those records.</li>
+            <li>Investors can review listed invoices, inspect details, and fund open opportunities.</li>
+            <li>Issuers can later repay funded invoices, while all users can review transaction history and status.</li>
+          </ul>
+        </section>
+
+        <div class="footer-nav">
+          <span></span>
+          <a href="02-getting-started.html">Get Started →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="search-index.js"></script>
+  <script src="manual-search.js"></script>
+  <script>
+    const sidebar = document.getElementById("manualSidebar");
+    const contentWrap = document.getElementById("contentWrap");
+    const toggleSidebarBtn = document.getElementById("toggleSidebarBtn");
+    const printPageBtn = document.getElementById("printPageBtn");
+
+    toggleSidebarBtn.addEventListener("click", function () {
+      sidebar.classList.toggle("collapsed");
+      contentWrap.classList.toggle("expanded");
+    });
+
+    printPageBtn.addEventListener("click", function () {
+      window.print();
+    });
+  </script>
+</body>
+</html>

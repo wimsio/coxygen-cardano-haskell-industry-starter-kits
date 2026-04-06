@@ -1,0 +1,2 @@
+[18-Feb-2026 03:16:47 America/New_York] Brevo API failed (403): {"message":"Unable to send email. Your SMTP account is not yet activated. Please contact us at contact@brevo.com to request activation","code":"permission_denied"}
+

@@ -1,0 +1,15 @@
+1. project specification - project plan
+2. Eutxo, transaction/offchain transaction
+3. State Machine
+4. Plutus Functions, Data Types, modules
+5. Parts of a Plutus Validator
+6. Building Onchain
+7. Building offchain
+8. Testing Onchain 
+9. Testing offchain
+10. Formal Verification - onchain is doing the correct thing and offchain builds transaction the correct way
+11. Formal Methods
+12. Auditing
+how to balance transactions
+Eutxo specification, functions, datatypes, modules
+
