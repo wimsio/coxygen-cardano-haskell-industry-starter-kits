@@ -1,11 +1,15 @@
 
+---
+
+# 📄 `CONTRIBUTING.md`
+
 ````markdown
-# Contributing to CoxyInsure
+# Contributing to Coxyfi
 
-Thank you for your interest in contributing to **CoxyInsure**! 🚀  
-We welcome contributions from developers, designers, and blockchain enthusiasts looking to improve decentralized insurance on Cardano.
+Thank you for your interest in contributing to **Coxyfi**! 🚀  
+We welcome contributions from developers, designers, and blockchain enthusiasts working to improve decentralized invoice financing on Cardano.
 
-Whether it's fixing bugs, improving UI/UX, enhancing smart contracts, or optimizing backend logic — your help is appreciated.
+Whether it's fixing bugs, improving UI/UX, enhancing smart contracts, or optimizing backend logic — your contribution matters.
 
 ---
 
@@ -13,15 +17,15 @@ Whether it's fixing bugs, improving UI/UX, enhancing smart contracts, or optimiz
 
 ### 1. Fork the Repository
 
-Click the **Fork** button at the top right of this repository to create your own copy.
+Click the **Fork** button at the top right of this repository.
 
 ---
 
 ### 2. Clone Your Fork
 
 ```bash
-(https://github.com/Savissy/coxygen-cardano-haskell-industry-starter-kits.git)
-cd coxygen-cardano-haskell-industry-starter-kits
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+cd YOUR_REPO_NAME
 ````
 
 ---
@@ -36,9 +40,9 @@ git checkout -b feature/your-feature-name
 
 Examples:
 
-* `feature/claim-history-ui`
-* `fix/voting-bug`
-* `improvement/dashboard-stats`
+* `feature/invoice-filtering`
+* `fix/wallet-connection-bug`
+* `improvement/dashboard-ui`
 
 ---
 
@@ -49,8 +53,8 @@ While working on the project, ensure you:
 * Follow existing code structure and naming conventions
 * Keep code clean and readable
 * Write meaningful commit messages
-* Update UI consistently with the design system
-* Maintain compatibility with wallet integrations (e.g. Lace)
+* Maintain UI consistency with the design system
+* Ensure compatibility with Cardano wallets (e.g. Lace)
 
 ---
 
@@ -72,7 +76,7 @@ git push origin feature/your-feature-name
 
   * What you changed
   * Why it was needed
-  * Screenshots (for UI changes)
+  * Screenshots (for UI updates)
 
 ---
 
@@ -80,13 +84,13 @@ git push origin feature/your-feature-name
 
 ### Frontend
 
-Simply open:
+Open directly:
 
 ```bash
 main.html
 ```
 
-Or use a local server:
+Or run a local server:
 
 ```bash
 php -S localhost:8000
@@ -100,13 +104,13 @@ Ensure you have:
 
 * PHP installed
 * MySQL running
-* Configured `config.php` correctly
+* Configured `.env` or `config.php`
 
-Import your database and update credentials:
+Example:
 
 ```php
 $host = "localhost";
-$db   = "coxyinsure";
+$db   = "coxyfi";
 $user = "root";
 $pass = "";
 ```
@@ -115,9 +119,9 @@ $pass = "";
 
 ### Blockchain / Wallet Integration
 
-* Uses Cardano wallet connection (e.g. Lace)
+* Uses Cardano wallet integration (e.g. Lace)
 * Ensure browser wallet is installed
-* Test transactions on testnet where applicable
+* Use testnet for development
 
 ---
 
@@ -125,19 +129,17 @@ $pass = "";
 
 ```
 .
-├── main.html                 # Dashboard
-├── claims.html               # Claims page
-├── governance.html           # Voting / DAO page
-├── history.html              # Transaction history
+├── main.html
 ├── js/
-│   └── new-app.js            # Main frontend logic
-├── backend/
+│   └── app.js
+├── api/
 │   ├── config.php
-│   ├── get_claims.php
-│   ├── vote.php
-│   ├── log_tx.php
+│   ├── create_invoice.php
+│   ├── fund_invoice.php
+│   ├── repay_invoice.php
 │   └── ...
-├── assets/                   # Images, icons
+├── assets/
+├── docs/
 └── README.md
 ```
 
@@ -155,9 +157,9 @@ $pass = "";
 
 ### Frontend (JS / HTML)
 
-* Match UI to design system (dashboard layout)
-* Avoid inline JS where possible
-* Use clear DOM IDs (no conflicts)
+* Follow consistent UI structure
+* Avoid inline JS
+* Use clear and unique DOM IDs
 
 ---
 
@@ -165,15 +167,16 @@ $pass = "";
 
 * Use prepared statements (PDO)
 * Validate all inputs
+* Use `.env` for secrets (DO NOT hardcode API keys)
 * Return consistent JSON responses
 
 ---
 
-### Smart Contract / Blockchain
+### Blockchain / Smart Contracts
 
-* Keep metadata within Cardano limits
-* Avoid large inline data (use hashes/URLs instead)
-* Test transactions before committing changes
+* Keep metadata optimized (Cardano limits)
+* Avoid large inline data (use hashes/IPFS if needed)
+* Test transactions thoroughly before deployment
 
 ---
 
@@ -184,40 +187,39 @@ If you find a bug:
 1. Open a GitHub Issue
 2. Include:
 
-   * Description of the issue
+   * Description
    * Steps to reproduce
-   * Screenshots or console errors
+   * Screenshots / console logs
 
 ---
 
 ## 💡 Feature Requests
 
-We welcome ideas such as:
+We welcome ideas like:
 
-* Improved claim validation logic
-* DAO-based voting enhancements
-* Better analytics dashboard
-* Wallet-based identity features
+* Invoice risk scoring
+* Secondary marketplace for invoices
+* Analytics dashboard improvements
+* Multi-wallet support
 
 ---
 
 ## 🤝 Contribution Rules
 
 * Be respectful and constructive
-* Keep PRs focused (one feature/fix per PR)
-* Large changes should be discussed first via Issues
+* Keep PRs focused (one feature per PR)
+* Discuss major changes via Issues first
 
 ---
 
 ## 💬 Need Help?
 
-Open an Issue or Discussion in this repository.
+Open an Issue or Discussion.
 
 ---
 
 ## 🙌 Acknowledgment
 
-Thanks for contributing to **CoxyInsure** — helping build decentralized insurance for the future of Africa and beyond.
+Thanks for contributing to **Coxyfi** — building decentralized finance solutions for real-world business liquidity.
 
-```
-
+````
