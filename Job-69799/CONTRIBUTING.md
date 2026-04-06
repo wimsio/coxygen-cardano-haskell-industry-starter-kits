@@ -1,8 +1,4 @@
 
----
-
-# 📄 `CONTRIBUTING.md`
-
 ````markdown
 # Contributing to Coxyfi
 
