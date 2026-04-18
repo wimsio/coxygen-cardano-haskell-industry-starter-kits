@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CoxyInsure — Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #F5F7FA;
+      --sidebar: #FFFFFF;
+      --card: #FFFFFF;
+      --card-soft: #F9FAFB;
+      --line: #E4E7EC;
+      --text: #1A1F36;
+      --muted: #6B7280;
+      --muted-2: #9CA3AF;
+      --primary: #0052FF;
+      --primary-2: #0040CC;
+      --dark-pill: #1A1F36;
+      --green: #10B981;
+      --green-2: #059669;
+      --green-soft: #D1FAE5;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 20px 40px -12px rgba(0, 0, 0, 0.05);
+      --radius: 20px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;height:100%}
+    body{
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    a{text-decoration:none;color:inherit}
+    button,input{font:inherit}
+
+    .shell{
+      max-width: 1400px;
+      margin:0 auto;
+      padding:0 24px 32px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar{
+      height: 80px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      padding: 0 8px;
+      flex-shrink: 0;
+    }
+
+    .brand{
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0052FF, #00B2FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .top-right{
+      display:flex;
+      align-items:center;
+      gap:32px;
+      margin-left:auto;
+    }
+
+    .topnav{
+      display:flex;
+      align-items:center;
+      gap:32px;
+      color: #6B7280;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .topnav a{
+      position:relative;
+      padding:8px 0;
+      transition: color 0.2s;
+    }
+
+    .topnav a:hover {
+      color: var(--primary);
+    }
+
+    .topnav a.active{
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .topnav a.active::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:-4px;
+      height:2px;
+      background: var(--primary);
+      border-radius: 999px;
+    }
+
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:16px;
+    }
+
+    .wallet-btn{
+      border:none;
+      background: var(--primary);
+      color:#fff;
+      padding:10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor:pointer;
+      transition: background 0.2s;
+    }
+
+    .wallet-btn:hover {
+      background: var(--primary-2);
+    }
+
+    .avatar{
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      background: var(--dark-pill);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap: 32px;
+      align-items:start;
+      flex: 1;
+    }
+
+    .sidebar{
+      background: var(--sidebar);
+      border-radius: var(--radius);
+      padding: 32px 20px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      height: calc(100vh - 120px);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 24px;
+    }
+
+    .sidebar-brand{
+      padding: 0 8px 24px 8px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-title{
+      margin:0 0 8px;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 700;
+      line-height:1.3;
+    }
+
+    .sidebar-sub{
+      margin:0;
+      color: var(--muted-2);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform:uppercase;
+      line-height:1.4;
+    }
+
+    .nav-stack{
+      display:flex;
+      flex-direction:column;
+      gap: 4px;
+      margin-top:0;
+      flex: 1;
+    }
+
+    .nav-link{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      height: 44px;
+      padding:0 12px;
+      border-radius: 12px;
+      color: #4B5563;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover {
+      background: #F3F4F6;
+    }
+
+    .nav-link.active{
+      background: #EEF2FF;
+      color: var(--primary);
+      font-weight: 600;
+      box-shadow: none;
+    }
+
+    .nav-link .icon{
+      width: 20px;
+      text-align:center;
+      font-size: 18px;
+    }
+
+    .sidebar-bottom{
+      margin-top: auto;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      display:flex;
+      flex-direction:column;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .mint-btn{
+      height: 44px;
+      border:none;
+      background: var(--primary);
+      color:#fff;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor:pointer;
+      margin-bottom: 16px;
+      transition: background 0.2s;
+    }
+
+    .mint-btn:hover {
+      background: var(--primary-2);
+    }
+
+    .mint-btn:disabled {
+      background: #9CA3AF;
+      cursor: not-allowed;
+    }
+
+    .logout-btn {
+      height: 44px;
+      border: none;
+      background: transparent;
+      color: #EF4444;
+      border-radius: 12px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 12px;
+      width: 100%;
+    }
+
+    .logout-btn:hover {
+      background: #FEE2E2;
+    }
+
+    .content{
+      min-width:0;
+      padding-top: 8px;
+    }
+
+    .eyebrow{
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform:uppercase;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .heading-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 20px;
+    }
+
+    .heading-row h1{
+      margin:0;
+      font-size: 28px;
+      line-height:1.2;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text);
+    }
+
+    .member-pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 6px 14px;
+      border-radius: 40px;
+      background: var(--green);
+      color:#fff;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.3px;
+      white-space:nowrap;
+    }
+
+    .hero-bar{
+      width:100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), #00B2FF);
+      border-radius: 999px;
+      margin-bottom: 32px;
+    }
+
+    .hidden{display:none !important}
+
+    .membership-banner{
+      background: #FFFFFF;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px;
+      margin-bottom: 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .membership-banner h3{
+      margin:0 0 12px;
+      color: var(--primary);
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .membership-banner p{
+      margin:0 0 24px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height:1.6;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card{
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-label{
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .stat-value{
+      font-size: 32px;
+      line-height:1.2;
+      color: var(--text);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      white-space:pre-line;
+    }
+
+    .stat-sub{
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height:1.4;
+    }
+
+    .stat-meta{
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .panel-grid{
+      display:grid;
+      grid-template-columns:1.6fr 1fr;
+      gap: 24px;
+      align-items:start;
+      margin-bottom: 40px;
+    }
+
+    .panel{
+      background:#fff;
+      border-radius: 20px;
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .panel-head{
+      height: 72px;
+      padding:0 24px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-head h2{
+      margin:0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .panel-head .plus{
+      color: var(--primary);
+      font-size: 24px;
+      line-height:1;
+      font-weight: 500;
+    }
+
+    .panel-body{
+      padding: 28px 24px 28px;
+    }
+
+    .panel-copy{
+      color: var(--muted);
+      font-size: 14px;
+      line-height:1.6;
+      margin:0 0 24px;
+      max-width:95%;
+    }
+
+    .field-kicker{
+      font-size: 11px;
+      color: var(--muted-2);
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+
+    .amount-box{
+      position:relative;
+      margin-bottom: 8px;
+    }
+
+    .amount-box input{
+      width:100%;
+      height: 52px;
+      border: 1px solid var(--line);
+      outline:none;
+      background: #F9FAFB;
+      border-radius: 16px;
+      padding:0 80px 0 20px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+      transition: border 0.2s;
+    }
+
+    .amount-box input:focus {
+      border-color: var(--primary);
+    }
+
+    .amount-box .unit{
+      position:absolute;
+      right: 16px;
+      top:50%;
+      transform:translateY(-50%);
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: 8px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .row-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin: 8px 2px 24px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .row-meta .max{
+      color: var(--primary);
+      font-weight: 600;
+      cursor:pointer;
+      text-transform:uppercase;
+      font-size: 11px;
+    }
+
+    .btn-primary{
+      width:100%;
+      height: 48px;
+      border:none;
+      border-radius: 40px;
+      background: var(--primary);
+      color:#fff;
+      font-weight: 600;
+      font-size: 15px;
+      cursor:pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-2);
+    }
+
+    .withdraw-card{
+      background: linear-gradient(135deg, #0052FF, #00B2FF);
+      color:#fff;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .withdraw-kicker{
+      font-size: 11px;
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+      opacity:0.8;
+      margin-bottom: 16px;
+    }
+
+    .withdraw-main{
+      font-size: 36px;
+      line-height:1.2;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+    }
+
+    .withdraw-sub{
+      font-size: 13px;
+      opacity:0.8;
+      margin-bottom: 24px;
+    }
+
+    .withdraw-split{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+      border-top:1px solid rgba(255,255,255,0.2);
+      padding-top: 20px;
+      margin-bottom: 24px;
+    }
+
+    .mini-label{
+      font-size: 10px;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      opacity:0.7;
+      margin-bottom: 4px;
+    }
+
+    .mini-value{
+      font-size: 18px;
+      font-weight: 700;
+      line-height:1.3;
+    }
+
+    .withdraw-input input{
+      width:100%;
+      height: 48px;
+      border:none;
+      outline:none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.15);
+      color:#fff;
+      font-weight: 500;
+      font-size: 14px;
+      padding:0 16px;
+      margin-bottom: 12px;
+    }
+
+    .withdraw-input input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .btn-withdraw{
+      width:100%;
+      height: 48px;
+      border:none;
+      border-radius: 40px;
+      background:#fff;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 14px;
+      cursor:pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-withdraw:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .mini-card{
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .mini-card-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom: 16px;
+    }
+
+    .mini-card-top span{
+      font-size: 11px;
+      color: var(--muted-2);
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tag{
+      background: var(--green);
+      color:#fff;
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .mini-card-body{
+      display:flex;
+      align-items:center;
+      gap: 14px;
+    }
+
+    .mini-icon{
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: #EEF2FF;
+      border: none;
+      display:grid;
+      place-items:center;
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 22px;
+    }
+
+    .mini-title{
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mini-sub{
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .section-title{
+      margin:0 0 20px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .activity-table{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      border-radius: 20px;
+      overflow:hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .activity-table thead th{
+      text-align:left;
+      padding: 16px 20px;
+      font-size: 11px;
+      color: var(--muted-2);
+      font-weight: 600;
+      text-transform:uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--line);
+      background: #F9FAFB;
+    }
+
+    .activity-table tbody td{
+      padding: 16px 20px;
+      border-bottom: 1px solid #F0F1F3;
+      font-size: 14px;
+      color: var(--text);
+      vertical-align:middle;
+      background:#fff;
+    }
+
+    .activity-table tbody tr:last-child td{
+      border-bottom:none;
+    }
+
+    .action-cell{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      font-weight: 600;
+    }
+
+    .action-ico{
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display:grid;
+      place-items:center;
+      background: #D1FAE5;
+      color: #059669;
+      font-size: 14px;
+      flex:0 0 28px;
+    }
+
+    .status-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 4px 12px;
+      border-radius: 40px;
+      color:#fff;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform:uppercase;
+    }
+
+    .status-badge.success{background: var(--green)}
+    .status-badge.submitted{background: var(--green)}
+    .status-badge.pending{background: #F59E0B}
+    .status-badge.confirmed{background: var(--green)}
+    .status-badge.failed{background: #EF4444}
+
+    .muted{color: var(--muted)}
+
+    pre#log{
+      margin-top: 24px;
+      background: #1A1F36;
+      color: #10B981;
+      padding: 16px;
+      border-radius: 12px;
+      overflow:auto;
+      font-size: 12px;
+      font-family: 'Monaco', 'Menlo', monospace;
+      white-space:pre-wrap;
+      box-shadow: var(--shadow);
+    }
+
+    /* Action buttons row */
+.action-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Secondary button (Buy Cover) */
+.btn-secondary {
+  flex: 1;
+  height: 48px;
+  border-radius: 40px;
+  border: 1px solid var(--primary);
+  background: #EEF2FF;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--primary);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+    @media (max-width: 1200px){
+      .layout{grid-template-columns: 240px 1fr}
+      .stats{grid-template-columns: repeat(2,1fr)}
+      .panel-grid{grid-template-columns: 1fr}
+    }
+
+    @media (max-width: 980px){
+      .layout{grid-template-columns:1fr}
+      .sidebar{
+        height: auto;
+        position: static;
+      }
+      .stats{grid-template-columns:1fr}
+      .topbar{
+        height:auto;
+        padding:16px 0 12px;
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .top-right{
+        width:100%;
+        justify-content:space-between;
+        flex-wrap:wrap;
+      }
+    }
+
+    @media (max-width:640px){
+      .top-right{gap:16px}
+      .topnav{gap:20px;flex-wrap:wrap}
+      .heading-row{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">CoxyInsure</div>
+
+      <div class="top-right">
+        <nav class="topnav">
+          <a href="main.html" class="active">Dashboard</a>
+          <a href="claims.html">Claims</a>
+          <a href="governance.html">Governance</a>
+          <a href="audit.html">History</a>
+        </nav>
+
+        <div class="top-actions">
+          <button class="wallet-btn" onclick="init()">Connect Wallet</button>
+          <div class="avatar">🧑🏾</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <h3 class="sidebar-title">The Digital Vault</h3>
+          <p class="sidebar-sub">Institutional<br>Cardano Insurance</p>
+        </div>
+
+        <div class="nav-stack">
+          <a class="nav-link" href="membership.html">
+            <span class="icon">🛡️</span>
+            <span>Membership</span>
+          </a>
+
+          <a class="nav-link active" href="main.html">
+            <span class="icon">🪙</span>
+            <span>Pools</span>
+          </a>
+
+          <a class="nav-link" href="claims.html">
+            <span class="icon">🧾</span>
+            <span>Claims</span>
+          </a>
+
+          <a class="nav-link" href="governance.html">
+            <span class="icon">🗳️</span>
+            <span>Voting</span>
+          </a>
+
+          <a class="nav-link" href="audit.html">
+            <span class="icon">🧪</span>
+            <span>Audit</span>
+          </a>
+        </div>
+
+        <div class="sidebar-bottom">
+          <button id="mintMembershipBtn" class="mint-btn" onclick="mintMembership()">
+            Mint Membership
+          </button>
+
+          <a class="nav-link" href="settings.html">
+            <span class="icon">⚙️</span>
+            <span>Settings</span>
+          </a>
+
+          <button class="logout-btn" onclick="logout()">
+            <span class="icon">🚪</span>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="eyebrow">Network Overview</div>
+
+        <div class="heading-row">
+          <h1>Capital Pool Ecosystem</h1>
+          <span id="memberVerifiedBadge" class="member-pill">Member Verified</span>
+        </div>
+
+        <div class="hero-bar"></div>
+
+        <section id="membership" class="membership-banner hidden">
+          <h3>Membership Required</h3>
+          <p>You need a Soulbound Membership NFT before you can deposit into the pool, withdraw shares, or access protected dashboard activity.</p>
+          <button class="btn-primary" onclick="mintMembership()">Mint Membership NFT</button>
+        </section>
+
+        <section id="protocol" class="hidden">
+          <div class="stats">
+            <div class="stat-card">
+              <div class="stat-label">Total Pool Liquidity</div>
+              <div class="stat-value" id="stat-total-pool">--</div>
+              <div class="stat-sub">ADA</div>
+              <div class="stat-meta">↑ Live from database</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Active Claims</div>
+              <div class="stat-value" id="stat-claims-submitted">--</div>
+              <div class="stat-sub">Current exposure from submitted claims</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Claims Executed</div>
+              <div class="stat-value" id="stat-claims-executed-header">--</div>
+              <div class="stat-sub">Total payouts processed</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-label">Total Withdrawn</div>
+              <div class="stat-value" id="stat-total-withdrawn">--</div>
+              <div class="stat-sub">ADA withdrawn from pool</div>
+            </div>
+          </div>
+
+          <div class="panel-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <h2>Deposit Capital</h2>
+                <span class="plus">⊕</span>
+              </div>
+
+              <div class="panel-body">
+                <p class="panel-copy">
+                  Contribute liquidity to the Digital Vault. Your ADA provides the collateral for network insurance policies and earns a share of the protocol premiums.
+                </p>
+
+                <div class="field-kicker">Amount to Stake</div>
+
+                <div class="amount-box">
+                  <input id="depositAmount" type="number" min="0" step="any" placeholder="0.00" />
+                  <span class="unit">ADA</span>
+                </div>
+
+                <div class="row-meta">
+                  <span id="depositAvailableText">Available: -- ADA</span>
+                  <span class="max" onclick="setMaxDeposit()">MAX</span>
+                </div>
+
+                <div class="action-row">
+                <button class="btn-primary" onclick="depositToPool()">Deposit ADA/Pay Premium</button>
+
+                <button class="btn-secondary" onclick="window.location.href='buy-cover.html'">
+                  🛡️ Buy Cover
+                </button>
+              </div>
+
+              </div>
+            </section>
+
+            <div>
+              <section class="withdraw-card">
+                <div class="withdraw-kicker">✪ Withdraw Shares</div>
+
+                <div class="withdraw-main" id="shareBalance">--</div>
+                <div class="withdraw-sub">User Share Balance</div>
+
+                <div class="withdraw-split">
+                  <div>
+                    <div class="mini-label">Pool Share</div>
+                    <div class="mini-value" id="stat-pool-share">--</div>
+                  </div>
+
+                  <div>
+                    <div class="mini-label">Claims Executed</div>
+                    <div class="mini-value" id="stat-claims-executed">--</div>
+                  </div>
+                </div>
+
+                <div class="withdraw-input">
+                  <input id="withdrawShares" type="number" min="0" step="1" placeholder="Enter shares to withdraw" />
+                </div>
+
+                <button id="withdrawBtn" class="btn-withdraw" onclick="withdrawFromPool()">
+              </section>
+
+              <section class="mini-card">
+                <div class="mini-card-top">
+                  <span>Member Status</span>
+                  <div class="tag">Tier II</div>
+                </div>
+
+                <div class="mini-card-body">
+                  <div class="mini-icon">⬢</div>
+                  <div>
+                    <div class="mini-title">Insurance Pool Active</div>
+                    <div class="mini-sub">Share balance and pool activity synced live.</div>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <section>
+            <h3 class="section-title">Recent Pool Activity</h3>
+
+            <table class="activity-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentTxBody">
+                <tr>
+                  <td colspan="4" class="muted">Loading recent pool activity......</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <pre id="log"></pre>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    function setMaxDeposit() {
+      const input = document.getElementById("depositAmount");
+      const availableText = document.getElementById("depositAvailableText");
+      if (!input || !availableText) return;
+      const match = availableText.textContent.match(/([\d,.]+)/);
+      if (match) input.value = match[1].replace(/,/g, "");
+    }
+
+    async function enforceWithdrawLock() {
+  try {
+    if (!window.walletAddress) return;
+
+    const res = await fetch(`check_active_cover.php?wallet_address=${encodeURIComponent(window.walletAddress)}`);
+    const data = await res.json();
+
+    const btn = document.getElementById("withdrawBtn");
+
+    if (!btn) return;
+
+    if (data.has_active_cover) {
+      btn.disabled = true;
+      btn.textContent = "🔒 Withdraw Locked (Active Cover)";
+      btn.style.opacity = "0.6";
+      btn.style.cursor = "not-allowed";
+    } else {
+      btn.disabled = false;
+      btn.textContent = "Withdraw Shares";
+      btn.style.opacity = "1";
+      btn.style.cursor = "pointer";
+    }
+
+  } catch (e) {
+    console.error("Withdraw lock error:", e);
+  }
+}
+
+function afterWalletReady() {
+  enforceWithdrawLock();
+}
+
+window.afterWalletReady = afterWalletReady;
+
+    function logout() {
+      fetch('/logout.php', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }).then(() => {
+        window.location.href = '/index.html';
+      }).catch(() => {
+        window.location.href = '/index.html';
+      });
+    }
+  </script>
+
+  <script type="module" src="new-app.js"></script>
+  <script type="module" src="mint.js"></script>
+</body>
+</html>

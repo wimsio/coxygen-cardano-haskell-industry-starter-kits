@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 5. Capital Pools and Deposits</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>5. Capital Pools and Deposits</h1>
+        <p class="meta">Understand liquidity deposits, pool shares, balances, and withdrawal restrictions.</p>
+        
+<p>The Pools page is the liquidity side of the protocol. Here, users deposit ADA into the shared insurance pool, receive pool share representation, and monitor pool-level statistics such as liquidity, claims submitted, claims executed, and total withdrawn value.</p>
+
+<h2>5.1 Deposit ADA into the Pool</h2>
+<ol>
+<li>Navigate to the <strong>Pools</strong> page.</li>
+<li>Enter the ADA amount you want to deposit.</li>
+<li>Use the <strong>MAX</strong> shortcut if you want to fill the input with the available amount shown.</li>
+<li>Click <strong>Deposit ADA</strong>.</li>
+<li>Approve the wallet transaction and wait for confirmation.</li>
+</ol>
+
+<h2>5.2 Pool Share Balance</h2>
+<p>After a successful deposit, the dApp updates the user’s share balance and pool share metrics. These values help the user understand how much of the pool they currently represent.</p>
+
+<h2>5.3 Withdrawals and Cover Locking</h2>
+<div class="callout">🪙 Important: If a user has an active purchased cover, the protocol may disable withdrawal so the user cannot remove supporting liquidity while still being protected.</div>
+
+<ul>
+<li>Withdraw only when the UI shows the action as available.</li>
+<li>If withdrawal is locked, check whether the wallet has an active cover.</li>
+<li>Use pool activity and history sections to confirm previous deposits or withdrawals.</li>
+</ul>
+
+<div class="screenshot-container">
+  <img src="images/pool.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="membership.html">← Membership and Identity</a>
+          <a href="buy-cover.html">Buy Cover and Active Cover Tracking →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

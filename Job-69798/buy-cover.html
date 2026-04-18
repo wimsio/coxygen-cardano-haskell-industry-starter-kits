@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CoxyInsure — Buy Cover</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --line:#e5e7eb;
+      --text:#0f172a;
+      --muted:#6b7280;
+      --primary: #0052FF;
+      --primary-2: #0040CC;
+      --soft:#f8fafc;
+      --soft-blue:#eef4ff;
+      --green:#0f766e;
+      --red:#dc2626;
+      --shadow:0 8px 24px rgba(15, 23, 42, 0.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    a{text-decoration:none;color:inherit}
+    button,input,select{font:inherit}
+
+    .page{
+      max-width:1100px;
+      margin:0 auto;
+      padding:0 16px 28px;
+    }
+
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:18px;
+      padding:14px 0 10px;
+    }
+
+    .brand{
+      font-size: 22px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0052FF, #00B2FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .topnav{
+      display:flex;
+      gap:28px;
+      align-items:center;
+      color:#4b5563;
+      font-size:15px;
+      font-weight:500;
+    }
+
+    .topnav a.active{
+      color:var(--primary);
+      font-weight:700;
+      border-bottom:2px solid var(--primary);
+      padding-bottom:4px;
+    }
+
+    .top-right{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+
+    .wallet-btn{
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      height:40px;
+      padding:0 18px;
+      border-radius:12px;
+      font-weight:700;
+      cursor:pointer;
+    }
+
+    .wallet-btn:hover{background:var(--primary-2)}
+
+    .avatar{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      background:#1f2937;
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size:16px;
+    }
+
+    .hero{
+      margin-top:18px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.02), rgba(255,255,255,.02)),
+        radial-gradient(circle at 85% 50%, rgba(36,116,255,.25), transparent 28%),
+        radial-gradient(circle at 82% 50%, rgba(36,116,255,.12), transparent 38%),
+        linear-gradient(90deg, var(--primary), #00B2FF);
+      color:#fff;
+      border-radius:10px;
+      padding:34px 36px;
+      min-height:190px;
+      display:flex;
+      align-items:center;
+    }
+
+    .hero-content{
+      max-width:560px;
+    }
+
+    .hero h1{
+      margin:0 0 12px;
+      font-size:42px;
+      line-height:1.05;
+      letter-spacing:-1px;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:16px;
+      line-height:1.7;
+      color:rgba(255,255,255,.88);
+    }
+
+    .grid{
+      margin-top:26px;
+      display:grid;
+      grid-template-columns:1.45fr 1fr;
+      gap:22px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:22px;
+    }
+
+    .section-title{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .section-title h2,
+    .section-title h3{
+      margin:0;
+      font-size:17px;
+      font-weight:800;
+    }
+
+    .kicker{
+      font-size:11px;
+      font-weight:700;
+      color:#475569;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:8px;
+    }
+
+    .protocol-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .protocol-btn{
+      height:66px;
+      border:1px solid var(--line);
+      border-radius:10px;
+      background:#f9fafb;
+      font-weight:700;
+      cursor:pointer;
+      color:#1f2937;
+    }
+
+    .protocol-btn.active{
+      border-color:#8aa7ff;
+      background:#f5f8ff;
+      color:var(--primary);
+    }
+
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:16px 22px;
+    }
+
+    .field label{
+      display:block;
+      font-size:11px;
+      font-weight:700;
+      color:#475569;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:8px;
+    }
+
+    .input-wrap{
+      position:relative;
+    }
+
+    .input-wrap input,
+    .input-wrap select{
+      width:100%;
+      height:46px;
+      border:none;
+      outline:none;
+      background:#f3f4f6;
+      border-radius:10px;
+      padding:0 16px;
+      font-size:16px;
+      font-weight:700;
+      color:#334155;
+    }
+
+    .input-unit{
+      position:absolute;
+      right:14px;
+      top:50%;
+      transform:translateY(-50%);
+      color:#5b7bbf;
+      font-weight:800;
+    }
+
+    .premium-box{
+      margin-top:22px;
+      background:#f3f4f6;
+      border-radius:12px;
+      padding:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+    }
+
+    .premium-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#64748b;
+      font-weight:700;
+      margin-bottom:4px;
+    }
+
+    .premium-value{
+      font-size:19px;
+      font-weight:900;
+      color:var(--primary);
+    }
+
+    .btn-purchase{
+      min-width:195px;
+      height:46px;
+      border:none;
+      background:var(--primary);
+      color:#fff;
+      border-radius:12px;
+      font-weight:800;
+      cursor:pointer;
+    }
+
+    .btn-purchase:hover{background:var(--primary-2)}
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width:78px;
+      height:24px;
+      padding:0 10px;
+      border-radius:999px;
+      background:#eef2ff;
+      color:var(--primary);
+      font-size:11px;
+      font-weight:800;
+      text-transform:uppercase;
+    }
+
+    .cover-list,
+    .claims-list{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .cover-item,
+    .claim-item{
+      background:#f8fafc;
+      border-radius:10px;
+      padding:14px;
+      border:1px solid #edf2f7;
+    }
+
+    .cover-top,
+    .claim-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+    }
+
+    .cover-name,
+    .claim-name{
+      font-weight:800;
+      font-size:18px;
+      color:#0f172a;
+    }
+
+    .cover-id,
+    .claim-desc{
+      font-size:12px;
+      color:#64748b;
+      margin-top:2px;
+      line-height:1.45;
+    }
+
+    .protected-pill{
+      padding:2px 10px;
+      border-radius:999px;
+      background:#d1fae5;
+      color:#065f46;
+      font-size:10px;
+      font-weight:800;
+      text-transform:uppercase;
+    }
+
+    .cover-bottom{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:12px;
+      font-size:12px;
+      color:#64748b;
+    }
+
+    .cover-bottom strong{
+      display:block;
+      color:var(--primary);
+      font-size:15px;
+      margin-top:2px;
+    }
+
+    .claim-row{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .claim-icon{
+      width:40px;
+      height:40px;
+      border-radius:10px;
+      background:#dbeafe;
+      display:grid;
+      place-items:center;
+      flex:0 0 40px;
+      color:var(--primary);
+      font-weight:900;
+    }
+
+    .claim-right{
+      margin-left:auto;
+      text-align:right;
+      font-size:12px;
+      color:#64748b;
+      white-space:nowrap;
+    }
+
+    .claim-right strong{
+      display:block;
+      color:var(--primary);
+      font-size:15px;
+      margin-top:2px;
+    }
+
+    .view-all{
+      font-size:12px;
+      color:var(--primary);
+      font-weight:700;
+    }
+
+    .empty{
+      padding:22px;
+      text-align:center;
+      color:#64748b;
+      background:#f8fafc;
+      border-radius:12px;
+    }
+
+    .hidden{display:none !important}
+
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .topbar{flex-wrap:wrap}
+      .topnav{gap:16px;flex-wrap:wrap}
+      .premium-box{flex-direction:column;align-items:flex-start}
+      .btn-purchase{width:100%}
+    }
+
+    @media (max-width: 640px){
+      .hero h1{font-size:32px}
+      .protocol-grid{grid-template-columns:1fr}
+      .form-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">CoxyInsure</div>
+
+      <nav class="topnav">
+        <a href="main.html">Dashboard</a>
+        <a href="buy-cover.html" class="active">Buy Cover</a>
+        <a href="claims.html">Claims</a>
+        <a href="governance.html">Governance</a>
+        <a href="audit.html">History</a>
+      </nav>
+
+      <div class="top-right">
+        <button class="wallet-btn" onclick="init()">Connect Wallet</button>
+        <div class="avatar">🧑🏾</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Protect Your Assets</h1>
+        <p>
+          Secure your capital across the Cardano ecosystem with institutional-grade decentralized coverage.
+          Mitigate smart contract risks and protocol failures through our peer-to-peer risk management vault.
+        </p>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <div class="section-title">
+          <h2>💳 Pay Premium</h2>
+        </div>
+
+        <div class="kicker">Select Protocol</div>
+        <div class="protocol-grid">
+          <button class="protocol-btn active" data-protocol="Minswap">Minswap</button>
+          <button class="protocol-btn" data-protocol="Indigo">Indigo</button>
+          <button class="protocol-btn" data-protocol="Liqwid">Liqwid</button>
+        </div>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="coverageAmount">Coverage Amount (ADA)</label>
+            <div class="input-wrap">
+              <select id="coverageAmount"></select>
+              <span class="input-unit">ADA</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="coverageDuration">Coverage Period</label>
+            <div class="input-wrap">
+              <select id="coverageDuration">
+                <option value="90">90 Days</option>
+                <option value="180">180 Days</option>
+                <option value="365">365 Days</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="premium-box">
+          <div>
+            <div class="premium-label">Estimated Premium</div>
+            <div class="premium-value" id="estimatedPremium">20.00 ADA</div>
+          </div>
+
+          <button class="btn-purchase" onclick="purchaseCover()">Purchase Cover →</button>
+        </div>
+
+        <!-- reuses depositToPool -->
+        <input id="depositAmount" type="hidden">
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom:22px;">
+          <div class="section-title">
+            <h3>Your Active Covers</h3>
+            <span class="pill" id="activeCoverCount">0 Active</span>
+          </div>
+
+          <div class="cover-list" id="activeCoversList">
+            <div class="empty">No active covers yet.</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h3>Recent Cover Claims</h3>
+            <a class="view-all" href="claims.html">View All</a>
+          </div>
+
+          <div class="claims-list" id="recentCoverClaimsList">
+            <div class="empty">Loading recent claims...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ONLY SHOWING UPDATED SCRIPT SECTION BELOW -->
+
+<script>
+let selectedProtocol = "Minswap";
+
+/* ---------- SUBSCRIPTION PLANS ---------- */
+
+const COVERAGE_PLANS = {
+  Minswap: {
+    duration: 90,
+    tiers: [
+      { label: "500", premium: 20 },
+      { label: "1000", premium: 35 },
+      { label: "5000", premium: 60 },
+      { label: "10000", premium: 110 },
+      { label: "25000", premium: 180 },
+      { label: "50000", premium: 300 }
+    ]
+  },
+
+  Indigo: {
+    duration: 180,
+    tiers: [
+      { label: "500", premium: 40 },
+      { label: "1000", premium: 70 },
+      { label: "5000", premium: 120 },
+      { label: "10000", premium: 220 },
+      { label: "25000", premium: 350 },
+      { label: "50000", premium: 600 }
+    ]
+  },
+
+  Liqwid: {
+    duration: 365,
+    tiers: [
+      { label: "500", premium: 60 },
+      { label: "1000", premium: 100 },
+      { label: "5000", premium: 180 },
+      { label: "10000", premium: 320 },
+      { label: "25000", premium: 500 },
+      { label: "50000", premium: 900 }
+    ]
+  }
+};
+
+/* ---------- HELPERS ---------- */
+
+function formatAda(n) {
+  return Number(n).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+/* ---------- LOAD TIERS ---------- */
+
+function loadCoverageOptions(protocol) {
+  const select = document.getElementById("coverageAmount");
+  const durationEl = document.getElementById("coverageDuration");
+
+  const plan = COVERAGE_PLANS[protocol];
+
+  select.innerHTML = `<option value="">Select Coverage</option>`;
+
+  plan.tiers.forEach((tier, i) => {
+    select.innerHTML += `<option value="${i}">${tier.label}</option>`;
+  });
+
+  durationEl.value = plan.duration;
+}
+
+/* ---------- UPDATE PREMIUM ---------- */
+
+function updatePremium() {
+  const tierIndex = document.getElementById("coverageAmount").value;
+
+  if (tierIndex === "") return;
+
+  const plan = COVERAGE_PLANS[selectedProtocol];
+  const tier = plan.tiers[tierIndex];
+
+  document.getElementById("estimatedPremium").textContent =
+    `${formatAda(tier.premium)} ADA`;
+
+  document.getElementById("depositAmount").value = tier.premium;
+}
+
+/* ---------- EVENTS ---------- */
+
+function bindEvents() {
+  document.querySelectorAll(".protocol-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".protocol-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      selectedProtocol = btn.dataset.protocol;
+
+      loadCoverageOptions(selectedProtocol);
+      updatePremium();
+    };
+  });
+
+  document.getElementById("coverageAmount")
+    .addEventListener("change", updatePremium);
+
+  loadCoverageOptions("Minswap");
+}
+
+/* ---------- PURCHASE ---------- */
+
+async function purchaseCover() {
+  try {
+    const tierIndex = document.getElementById("coverageAmount").value;
+
+    if (tierIndex === "") {
+      alert("Select a coverage tier.");
+      return;
+    }
+
+    if (!window.walletAddress) {
+      alert("Connect wallet first.");
+      return;
+    }
+
+    const plan = COVERAGE_PLANS[selectedProtocol];
+    const tier = plan.tiers[tierIndex];
+
+    const premiumAmount = tier.premium;
+    const coverageAmount = tier.label;
+    const durationDays = plan.duration;
+
+    document.getElementById("depositAmount").value = premiumAmount;
+
+    await window.depositToPool();
+
+    const res = await fetch("save_cover_purchase.php", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        wallet_address: window.walletAddress,
+        protocol_name: selectedProtocol,
+        coverage_amount_ada: coverageAmount,
+        premium_amount_ada: premiumAmount,
+        duration_days: durationDays
+      })
+    });
+
+    const data = await res.json();
+
+    if (!data.ok) throw new Error(data.error);
+
+    alert("Cover purchased successfully.");
+
+    loadActiveCovers();
+    loadRecentCoverClaims();
+
+  } catch (e) {
+    console.error(e);
+    alert("Purchase failed");
+  }
+}
+
+/* ---------- STATUS ---------- */
+
+function statusClass(status) {
+  if (status === "active") return "status-active";
+  if (status === "expired") return "status-expired";
+  if (status === "claimed") return "status-claimed";
+  return "";
+}
+
+/* ---------- LOAD COVERS ---------- */
+
+async function loadActiveCovers() {
+  if (!window.walletAddress) return;
+
+  const res = await fetch(`get_active_covers.php?wallet_address=${encodeURIComponent(window.walletAddress)}`);
+  const data = await res.json();
+
+  const list = document.getElementById("activeCoversList");
+  const count = document.getElementById("activeCoverCount");
+
+  count.textContent = `${data.covers.length} Active`;
+
+  list.innerHTML = data.covers.map(c => `
+    <div class="cover-item">
+      <div class="cover-top">
+        <div>
+          <div class="cover-name">${c.protocol_name}</div>
+          <div class="cover-id">ID: ${c.id}</div>
+        </div>
+        <div class="protected-pill ${statusClass(c.status)}">
+          ${c.status.toUpperCase()}
+        </div>
+      </div>
+
+      <div class="cover-bottom">
+        <div>
+          <div>Amount</div>
+          <strong>${c.coverage_amount_ada}</strong>
+        </div>
+        <div>
+          <div>Expires</div>
+          <strong>${c.end_date_display}</strong>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+/* ---------- LOAD CLAIMS ---------- */
+
+async function loadRecentCoverClaims() {
+  const res = await fetch("get_recent_cover_claims.php");
+  const data = await res.json();
+
+  const list = document.getElementById("recentCoverClaimsList");
+
+  list.innerHTML = data.claims.map(c => `
+    <div class="claim-item">
+      <div class="claim-row">
+        <div class="claim-icon">↻</div>
+
+        <div>
+          <div class="claim-name">${c.title}</div>
+          <div class="claim-desc">${c.description}</div>
+        </div>
+
+        <div class="claim-right">
+          Requested
+          <strong>${formatAda(c.claim_amount_ada)} ADA</strong>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+/* ---------- WALLET READY ---------- */
+
+function afterWalletReady() {
+  loadActiveCovers();
+  loadRecentCoverClaims();
+}
+
+window.afterWalletReady = afterWalletReady;
+
+document.addEventListener("DOMContentLoaded", bindEvents);
+</script>
+
+  <script type="module" src="new-app.js"></script>
+  <script type="module" src="mint.js"></script>
+</body>
+</html>

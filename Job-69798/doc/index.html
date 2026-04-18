@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 1. Welcome to the CoxyInsure User Manual</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>1. Welcome to the CoxyInsure User Manual</h1>
+        <p class="meta">A guided walkthrough for membership, liquidity, cover purchase, claims, governance, history, and admin monitoring.</p>
+        
+<div class="hero-logo"><img src="images/coxy-logo.png" alt="Membership Page Screenshot"></div>
+<div class="meta-row"><span><strong>Author:</strong> CoxyInsure Product & Support Team</span><span><strong>Last Updated:</strong> April 15, 2026</span></div>
+<hr>
+<p>CoxyInsure is a Cardano-based DeFi insurance dApp that combines membership identity, capital pooling, cover purchase, claim submission, community voting, and administrator review into one coordinated platform. This manual is meant to help new users enter the system with confidence and help existing users understand the full lifecycle of liquidity provision, policy management, and claims governance.</p>
+<p>The guide is arranged in the same order that most users encounter the product: public landing page, wallet connection, membership, pools, buy cover, claims, governance, history, and the admin monitoring layer.</p>
+
+<div class="callout">💡 Tip: Use the navigation panel on the left to move chapter by chapter, or open the search box at the top and search keywords like <span class="kbd">wallet</span>, <span class="kbd">membership</span>, <span class="kbd">deposit</span>, <span class="kbd">cover</span>, <span class="kbd">claim</span>, or <span class="kbd">governance</span>.</div>
+
+<h2>1.1 What This Manual Covers</h2>
+<ul class="checks">
+<li>how users enter the dApp from the public landing page</li>
+<li>how to connect a supported Cardano wallet and verify the correct account</li>
+<li>how membership controls access to protected protocol actions</li>
+<li>how pool deposits, shares, and withdrawals work</li>
+<li>how to purchase cover and understand active cover records</li>
+<li>how to submit a claim and attach documentation</li>
+<li>how community voting and admin review affect claim outcomes</li>
+<li>how to use history, audit, and admin reporting surfaces</li>
+</ul>
+
+<h2>1.2 How to Read This Guide</h2>
+<div class="section-card">
+  <p><strong>Start in order if you are new.</strong> The chapters are numbered to mirror the normal user journey.</p>
+  <p><strong>Search if you are returning.</strong> The search bar is ideal for finding a single feature quickly.</p>
+  <p><strong>Use screenshot placeholders.</strong> Every major section includes a labelled screenshot placeholder so your team can later replace them with real product captures.</p>
+  <p><strong>Print individual pages if needed.</strong> The print icon at the top right prints the current chapter cleanly.</p>
+</div>
+
+<h2>1.3 Main Product Areas</h2>
+<div class="grid-cards">
+  <div class="mini-card"><h3>Public Layer</h3><p>Landing page, learn more entry point, feature summaries, and onboarding orientation.</p></div>
+  <div class="mini-card"><h3>User Layer</h3><p>Wallet connection, membership, pools, cover purchase, claims, governance, and history.</p></div>
+  <div class="mini-card"><h3>Admin Layer</h3><p>Dashboard oversight, cover monitoring, claim review, governance execution, and member visibility.</p></div>
+</div>
+
+<div class="screenshot-container">
+  <img src="images/new-home.png" alt="Membership Page Screenshot">
+</div>
+</div>
+
+        <div class="footer-nav">
+          <span class="empty">.</span>
+          <a href="getting-started.html">Get Started →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>
