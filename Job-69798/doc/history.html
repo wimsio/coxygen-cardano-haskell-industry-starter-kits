@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 9. History and Audit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>9. History and Audit</h1>
+        <p class="meta">Use transaction history and audit views to inspect activity and search records.</p>
+        
+<p>The history and audit surfaces give users and administrators visibility into what has happened in the protocol. These views are important because blockchain confirmation alone is not enough for a user-friendly operational dashboard.</p>
+
+<h2>9.1 User History</h2>
+<ul>
+<li>View recent pool activity.</li>
+<li>Inspect deposit, withdrawal, cover, and claim-related records.</li>
+<li>Search by wallet address when supported.</li>
+</ul>
+
+<h2>9.2 Audit and Reporting</h2>
+<p>Audit-facing pages can summarize claim submissions, payouts, governance decisions, and other protocol events. They are useful for compliance-style review and support operations.</p>
+
+<h2>9.3 What to Look For</h2>
+<div class="grid-cards">
+  <div class="mini-card"><h3>Transaction hash</h3><p>Use it to verify on-chain actions if needed.</p></div>
+  <div class="mini-card"><h3>Status</h3><p>Watch for submitted, confirmed, rejected, or executed states.</p></div>
+  <div class="mini-card"><h3>Actor wallet</h3><p>Useful for tracing deposits, claims, and admin decisions.</p></div>
+</div>
+
+<div class="screenshot-container">
+  <img src="images/audit.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="governance.html">← Governance and Voting</a>
+          <a href="admin-portal.html">Admin Portal Overview →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

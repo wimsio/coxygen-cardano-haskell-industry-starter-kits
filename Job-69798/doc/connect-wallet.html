@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 3. Connect Wallet and Verify Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>3. Connect Wallet and Verify Access</h1>
+        <p class="meta">Learn how wallet connection, wallet verification, and wallet binding affect access to protected actions.</p>
+        
+<p>Wallet connection is the gate between the browser and the Cardano blockchain. In CoxyInsure, connecting a wallet is not only about reading balances. It also determines whether you can submit transactions, mint membership, deposit to pools, buy cover, and participate in governance.</p>
+
+<h2>3.1 Connect Wallet</h2>
+<ul>
+<li>Click the <strong>Connect Wallet</strong> button in the top navigation.</li>
+<li>Choose your wallet provider.</li>
+<li>Approve the connection request in the wallet popup.</li>
+<li>Wait for the UI to refresh and display the connected state.</li>
+</ul>
+
+<h2>3.2 Wallet Binding and Verification</h2>
+<p>Some deployments of CoxyInsure use a wallet binding flow. In that flow, the backend checks whether the currently connected wallet matches the wallet approved for the signed-in account. If not, the user may be prompted to sign a nonce-based challenge to establish or confirm wallet ownership.</p>
+
+<div class="callout">🔐 Security note: The dApp should never ask for your seed phrase. The only wallet interaction expected here is a standard connection approval or signature request inside the wallet extension.</div>
+
+<h2>3.3 Successful and Failed States</h2>
+<div class="grid-cards">
+  <div class="mini-card"><h3>Successful connection</h3><p>The app shows a connected wallet state and enables protected blockchain actions.</p></div>
+  <div class="mini-card"><h3>Wrong wallet</h3><p>The app may block protected actions and show a warning modal asking you to switch to the approved wallet.</p></div>
+  <div class="mini-card"><h3>Binding failure</h3><p>If the backend challenge is missing or invalid, reconnect and retry the wallet verification flow.</p></div>
+</div>
+
+<div class="screenshot-container">
+  <img src="images/wallet-connect.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="getting-started.html">← Get Started</a>
+          <a href="membership.html">Membership and Identity →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

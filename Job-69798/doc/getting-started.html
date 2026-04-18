@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 2. Get Started</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>2. Get Started</h1>
+        <p class="meta">Understand the basic prerequisites before using protected protocol features.</p>
+        
+<p>Before using CoxyInsure, make sure you have three things ready: a supported browser, a supported Cardano wallet extension, and access to the correct user account that matches your intended wallet address.</p>
+
+<h2>2.1 Before You Begin</h2>
+<ul>
+<li>Use a modern desktop browser such as Chrome, Edge, or Brave.</li>
+<li>Install a Cardano wallet extension supported by your dApp setup, such as Lace.</li>
+<li>Keep your wallet seed phrase private and never paste it into the dApp.</li>
+<li>Ensure you are signing in with the correct application account before connecting a wallet.</li>
+</ul>
+
+<h2>2.2 Typical First-Time User Flow</h2>
+<ol>
+<li>Open the public landing page.</li>
+<li>Click <strong>Learn More</strong> for guidance or <strong>Launch App</strong> to begin using the protocol.</li>
+<li>Sign in or register if your deployment requires account authentication.</li>
+<li>Connect your wallet.</li>
+<li>Verify or bind the correct wallet to your account.</li>
+<li>Mint membership if required.</li>
+<li>Choose whether to provide liquidity, buy cover, or both.</li>
+</ol>
+
+<h2>2.3 Common Things That Block Progress</h2>
+<div class="section-card">
+  <p><strong>Wrong wallet connected:</strong> you may see a warning or blocked action if the connected wallet does not match the approved wallet for the user account.</p>
+  <p><strong>Membership not minted:</strong> protected features such as pool participation or governance may remain hidden or disabled until membership is minted.</p>
+  <p><strong>Insufficient ADA:</strong> you need enough ADA to pay for network fees and any deposit or premium you are trying to submit.</p>
+</div>
+
+<div class="screenshot-container">
+  <img src="images/register.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="index.html">← Welcome to the CoxyInsure User Manual</a>
+          <a href="connect-wallet.html">Connect Wallet and Verify Access →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 7. Submit and Track Claims</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>7. Submit and Track Claims</h1>
+        <p class="meta">Learn how to upload supporting evidence, submit a claim, and review claim history.</p>
+        
+<p>The Claims page allows users to submit a claim against an insured event and track previously submitted documents. This area combines document upload, description capture, on-chain claim transaction handling, and backend record storage.</p>
+
+<h2>7.1 Before You Submit a Claim</h2>
+<ul>
+<li>Make sure the wallet has an active or valid cover where required by protocol rules.</li>
+<li>Prepare a clear supporting document such as an image or PDF.</li>
+<li>Write a concise claim description explaining the insured event.</li>
+</ul>
+
+<h2>7.2 Submit Claim Flow</h2>
+<ol>
+<li>Open the <strong>Claims</strong> page.</li>
+<li>Select or upload the evidence document.</li>
+<li>Enter the claim description and required claim amount details.</li>
+<li>Submit the claim and approve the blockchain action if requested.</li>
+<li>Wait for the claim to appear in your submission history.</li>
+</ol>
+
+<h2>7.3 Claim History and Documents</h2>
+<p>The page should show the current wallet’s submitted claims, including document name, size, creation date, and a document view link. If the claim document opens in a new tab, the backend should serve the real file URL so the image or PDF is visible directly.</p>
+
+<div class="screenshot-container">
+  <img src="images/claims.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="buy-cover.html">← Buy Cover and Active Cover Tracking</a>
+          <a href="governance.html">Governance and Voting →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

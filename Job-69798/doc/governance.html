@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 8. Governance and Voting</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>8. Governance and Voting</h1>
+        <p class="meta">Understand community voting, consensus thresholds, execution readiness, and claim decisions.</p>
+        
+<p>CoxyInsure uses a governance layer to review submitted claims. This gives the community and the admin team a structured way to approve, reject, or execute payouts after claim review.</p>
+
+<h2>8.1 Public Governance Page</h2>
+<ul>
+<li>Users can view pending claims that require community voting.</li>
+<li>Each pending claim should show claimant information, amount, vote progress, and document details.</li>
+<li>Claims that reach the threshold move to the ready-for-execution queue.</li>
+</ul>
+
+<h2>8.2 Voting on Pending Claims</h2>
+<ol>
+<li>Connect the correct wallet.</li>
+<li>Open the <strong>Governance</strong> page.</li>
+<li>Review the claim amount, claimant identity, and threshold progress.</li>
+<li>Click the vote button to cast an approval vote.</li>
+</ol>
+
+<h2>8.3 Admin Review and Final Actions</h2>
+<p>On the admin governance page, claims that have passed threshold can be executed or rejected. Rejected claims should be removed from the executable queue in public governance. Executed claims should also be excluded from pending public interaction.</p>
+
+<div class="callout">🗳️ Governance note: If the claimant’s true wallet address is stored in backend claim records, the public and admin governance UIs should display the short real wallet address rather than a meaningless hash, so the admin can verify cover activity and premium faithfulness.</div>
+
+<div class="screenshot-container">
+  <img src="images/voting (2).png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="claims.html">← Submit and Track Claims</a>
+          <a href="history.html">History and Audit →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

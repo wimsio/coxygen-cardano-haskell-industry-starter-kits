@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cardano Insurance | Institutional Grade Risk Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed": "#78f7e9",
+              "surface": "#f7f9fb",
+              "secondary-fixed-dim": "#a6cbe7",
+              "on-tertiary-container": "#38c1b4",
+              "inverse-surface": "#2d3133",
+              "surface-container-lowest": "#ffffff",
+              "on-background": "#191c1e",
+              "tertiary-fixed-dim": "#59dacd",
+              "surface-tint": "#3254ca",
+              "secondary-fixed": "#c7e7ff",
+              "outline": "#747685",
+              "surface-container-low": "#f2f4f6",
+              "on-surface": "#191c1e",
+              "on-secondary-fixed": "#001e2e",
+              "surface-container-high": "#e6e8ea",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "inverse-primary": "#b8c4ff",
+              "on-error-container": "#93000a",
+              "surface-dim": "#d8dadc",
+              "on-secondary": "#ffffff",
+              "on-tertiary-fixed": "#00201d",
+              "surface-bright": "#f7f9fb",
+              "secondary": "#3e627a",
+              "secondary-container": "#bce2fe",
+              "background": "#f7f9fb",
+              "on-tertiary-fixed-variant": "#00504a",
+              "inverse-on-surface": "#eff1f3",
+              "primary-container": "#0033ad",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#444654",
+              "tertiary": "#00322d",
+              "error": "#ba1a1a",
+              "on-secondary-container": "#40657d",
+              "on-primary-fixed-variant": "#0e39b2",
+              "on-primary-fixed": "#001453",
+              "surface-variant": "#e0e3e5",
+              "outline-variant": "#c4c5d6",
+              "tertiary-container": "#004a44",
+              "primary-fixed": "#dde1ff",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#96aaff",
+              "on-secondary-fixed-variant": "#254b62",
+              "primary-fixed-dim": "#b8c4ff",
+              "surface-container": "#eceef0",
+              "primary": "#002179"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .glass-panel {
+            background: rgba(247, 249, 251, 0.6);
+            backdrop-filter: blur(24px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #002179 0%, #0033ad 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .step-connector {
+            position: relative;
+        }
+        .step-connector::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -2rem;
+            width: 1rem;
+            height: 2px;
+            background: #cbd5e1;
+            display: none;
+        }
+        @media (min-width: 768px) {
+            .step-connector::after { display: block; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-white/60 backdrop-blur-lg shadow-sm">
+<nav class="flex items-center justify-between px-6 md:px-12 py-4 max-w-screen-2xl mx-auto">
+<div class="flex items-center gap-2">
+<span class="text-xl font-bold tracking-tight text-blue-900 font-headline">CoxyInsure</span>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-manrope text-sm font-semibold tracking-wide text-blue-700 border-b-2 border-blue-700 pb-1 transform transition-transform active:scale-95" href="#">Solutions</a>
+<a class="font-manrope text-sm font-semibold tracking-wide text-slate-600 hover:text-blue-700 transition-all duration-200 transform transition-transform active:scale-95" href="#">Capital Pools</a>
+<a class="font-manrope text-sm font-semibold tracking-wide text-slate-600 hover:text-blue-700 transition-all duration-200 transform transition-transform active:scale-95" href="#">Security</a>
+<a class="font-manrope text-sm font-semibold tracking-wide text-slate-600 hover:text-blue-700 transition-all duration-200 transform transition-transform active:scale-95" href="#">Governance</a>
+</div>
+<div class="flex items-center gap-4">
+    <a href="login.php">
+<button class="hidden md:block font-manrope text-sm font-semibold tracking-wide text-slate-600 hover:opacity-80 transition-all duration-200">Login</button>
+    </a>
+    <a href="launch.php">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-manrope text-sm font-semibold tracking-wide hover:opacity-80 transition-all duration-200 transform transition-transform active:scale-95">Launch App</button>
+    </a>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="account_circle">account_circle</span>
+</div>
+</nav>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-surface">
+<div class="absolute inset-0 z-0">
+<div class="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-tertiary-fixed/10 rounded-full blur-[100px]"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center py-20">
+<div class="lg:col-span-6">
+<div class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase mb-6">
+                        Institutional Grade Security
+                    </div>
+<h1 class="text-5xl md:text-7xl font-headline font-extrabold tracking-tight text-on-background mb-6 leading-[1.1]">
+                        The Institutional Layer for <span class="text-gradient">Cardano Insurance</span>
+</h1>
+<p class="text-xl text-on-surface-variant max-w-2xl mb-10 leading-relaxed font-body">
+                        CoxyInsure provides the infrastructure for decentralized risk management. Secure your protocol and provide liquidity to the future of finance with unshakeable on-chain transparency.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+    <a href="launch.php">
+<button class="bg-primary text-on-primary px-10 py-4 rounded-full font-headline font-bold text-lg hover:opacity-90 transition-all transform active:scale-95 shadow-lg shadow-primary/20">
+                            Launch App
+                        </button>
+    </a>
+    <a href="doc/index.html">
+<button class="bg-surface-container-lowest text-primary px-10 py-4 rounded-full font-headline font-bold text-lg hover:bg-surface-container-low transition-all transform active:scale-95 border border-outline-variant/20" href="doc/index.html">
+                            View Documentation
+                        </button>
+    </a>
+</div>
+<div class="mt-16 flex items-center gap-8 grayscale opacity-60">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label text-xs font-bold tracking-widest uppercase">Audited by Hoskinson Security</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="account_balance" style="font-variation-settings: 'FILL' 1;">account_balance</span>
+<span class="font-label text-xs font-bold tracking-widest uppercase">Institutional Grade Liquidity</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-6 relative">
+<div class="relative w-full aspect-square max-w-[600px] mx-auto">
+<img alt="Global Insurance Network" class="w-full h-full object-contain drop-shadow-2xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpoDvvH8xYOj5pyODPlXeRBp7NnpsPLhG1PDHqb4kjXY_Z6ON72WcHQTsTu4Ayk8n1K6KyvE5bz-1WQXHCO4aTCJwydBs2fRKG_0DKv46ox_OS4q7TUFicSXUaYryTrHeI0fXOcCuQnsz0RhXAC9noSmg1ckanwtwuvs6hsGST0B4gdA_nHA61WoG3mdPIN-5ckE7_v9kSC0zhCgdPvroZClLmTTyo-gCPFWxF-UAG3CYAJG675s8aX9b17Ooy6AdFpH5mijqU1no"/>
+<div class="absolute bottom-10 left-10 right-10 glass-panel p-8 rounded-3xl border border-white/40 shadow-2xl">
+<div class="flex justify-between items-end">
+<div>
+<p class="text-xs font-bold text-on-surface-variant tracking-[0.2em] uppercase mb-1">Total Value Protected</p>
+<h3 class="text-4xl font-headline font-black text-primary">₳ 425,842,000</h3>
+</div>
+<div class="text-right">
+<p class="text-xs font-bold text-on-tertiary-container tracking-[0.2em] uppercase mb-1">Active Claims</p>
+<h3 class="text-2xl font-headline font-bold text-on-surface">0.00%</h3>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- How It Works Section -->
+<section class="py-24 bg-white border-y border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-16">
+<h2 class="text-4xl font-headline font-extrabold text-on-background mb-4">How the Protocol Works</h2>
+<p class="text-on-surface-variant text-lg">A seamless, trustless lifecycle for decentralized risk management.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300 step-connector">
+<span class="text-xl font-bold">01</span>
+</div>
+<h4 class="font-headline font-bold mb-2">Mint Identity</h4>
+<p class="text-sm text-on-surface-variant">Verify identity through a Soulbound NFT to access the ecosystem.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300 step-connector">
+<span class="text-xl font-bold">02</span>
+</div>
+<h4 class="font-headline font-bold mb-2">Deposit Capital</h4>
+<p class="text-sm text-on-surface-variant">Contribute ADA to capital pools and start earning protocol premiums.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300 step-connector">
+<span class="text-xl font-bold">03</span>
+</div>
+<h4 class="font-headline font-bold mb-2">Submit Claim</h4>
+<p class="text-sm text-on-surface-variant">Members can file claims for covered events directly on-chain.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300 step-connector">
+<span class="text-xl font-bold">04</span>
+</div>
+<h4 class="font-headline font-bold mb-2">Governance Vote</h4>
+<p class="text-sm text-on-surface-variant">Community members review and vote on claim validity and payout.</p>
+</div>
+<div class="flex flex-col items-center text-center group">
+<div class="w-16 h-16 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+<span class="text-xl font-bold">05</span>
+</div>
+<h4 class="font-headline font-bold mb-2">Execute Payout</h4>
+<p class="text-sm text-on-surface-variant">Smart contracts automatically trigger approved funds to the claimant.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Deep Dive Features -->
+<section class="py-32 bg-surface-container-low">
+<div class="max-w-7xl mx-auto px-6 space-y-32">
+<!-- Soulbound Membership -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<div class="w-16 h-16 bg-primary-container rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-on-primary-container text-3xl" data-icon="fingerprint">fingerprint</span>
+</div>
+<h2 class="text-4xl font-headline font-extrabold mb-6">Soulbound Membership &amp; Identity</h2>
+<p class="text-lg text-on-surface-variant mb-8 leading-relaxed">
+                            CoxyInsure utilizes non-transferable Soulbound NFTs (SBTs) to establish a permanent on-chain identity for each participant. Unlike standard NFTs, these cannot be traded or sold, ensuring that reputation and history stay with the individual.
+                        </p>
+<ul class="space-y-4">
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<span class="text-on-surface-variant">Verified reputation scoring based on claim history and voting participation.</span>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<span class="text-on-surface-variant">Anti-Sybil protection for fair governance outcomes.</span>
+</li>
+<li class="flex gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle">check_circle</span>
+<span class="text-on-surface-variant">Privacy-preserving ZK-proof integration for identity verification.</span>
+</li>
+</ul>
+</div>
+<div class="relative">
+<img alt="Identity Shield" class="rounded-3xl shadow-2xl border border-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDo3e-mQkzt3Hn3Jdj-uSl83n4qaMHFM_iI6vTSGNTtKUFqZc_lCHbBHHVcAnfnAocUWRvBcZ__kFjvUo_7owNfRUVV9_vDBVSWnSdWnUa8j90cUuP_KR5hyQeb3y2iGIUrFBPP46orkICzpXObLeFKc1dn5WYtRbEbtj0e7B84ffq0KVNzsfDjq4HNYRoC-qLmgCvKmJ1s4MEFAgUMZT360krtYcOxAkcJR4-onWhi9XYPOw4xGj93iwualEbDlmGKeUM8YUZ5irs"/>
+</div>
+</div>
+<!-- Capital Pools -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1 relative">
+<img alt="Capital Vault" class="rounded-3xl shadow-2xl border border-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq_j6UHrYPRdQXKhF8trk3895Itc0d70p0gGOjoq7qbZMfFETfW0TSm8ItlydcfOyMP7n1xhTxZc-xR599JaH5gRx3yRjEAzQyOPpYUXrO6FHyC8DvXrxGrUQ5DYT2AaPw5ET1sl87x-RGcTqXtp9xb1fRNSzPbtJTwqZ9UPUctyAxld9XYNP64mjyl8MjtLhz6UTsE8zjKcyBDyO3Bf2YWbgYlNhAb09jFho-w-3QMropW0QftbbhIpfnsu9Ni11X0pLuPR_i36g"/>
+</div>
+<div class="order-1 lg:order-2">
+<div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-blue-800 text-3xl" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<h2 class="text-4xl font-headline font-extrabold mb-6">Institutional Capital Pools</h2>
+<p class="text-lg text-on-surface-variant mb-8 leading-relaxed">
+                            Our liquidity providers are the backbone of the protocol. By contributing ADA to diversified capital pools, you provide the coverage capacity needed for protocol security while earning consistent yield from premiums paid by coverage buyers.
+                        </p>
+<div class="grid grid-cols-2 gap-6">
+<div class="p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/10">
+<h4 class="font-headline font-bold text-primary mb-2">Risk Modeling</h4>
+<p class="text-sm text-on-surface-variant">Advanced mathematical models calculate real-time premium pricing based on current exposure.</p>
+</div>
+<div class="p-6 bg-surface-container-lowest rounded-2xl border border-outline-variant/10">
+<h4 class="font-headline font-bold text-primary mb-2">ADA Rewards</h4>
+<p class="text-sm text-on-surface-variant">Liquidity providers earn premiums directly in ADA, compounding their holdings through protocol growth.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Governance -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<div class="w-16 h-16 bg-tertiary-container rounded-2xl flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-on-tertiary-container text-3xl" data-icon="gavel">gavel</span>
+</div>
+<h2 class="text-4xl font-headline font-extrabold mb-6">Community-Led Governance</h2>
+<p class="text-lg text-on-surface-variant mb-8 leading-relaxed">
+                            True decentralization means the community decides. Our governance layer ensures that claims are reviewed fairly and protocol parameters are adjusted by those who use it most. No central authority can block a valid payout.
+                        </p>
+<p class="text-on-surface-variant italic border-l-4 border-primary pl-6 mb-8">
+                            "The claims process is fully transparent. Any member with a Soulbound NFT and a stake in the protocol can participate in the review and voting phase, ensuring an unbiased and efficient outcome."
+                        </p>
+<button class="flex items-center gap-2 font-headline font-bold text-primary hover:gap-4 transition-all">
+                            View Governance Proposals <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="relative">
+<img alt="Governance Meeting" class="rounded-3xl shadow-2xl border border-white/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDbPmIlRhvKm05rCbHjTjBn52_K0mVV9paHgKzlgDs40fa90qn3WBxSBILOuQON8fgd8nc-6hNIoz2OF8sMhySyvsuBXZ8LPWmMiltm5Z_KrilsqtcZLIKKf9Dtv6NC-pPBAJjDm1ETNSxR2IOUgooaH_763gyvr3NUEay7mgu3hryqabt7-zrr4rkxivL0EMhq37wxoWyzKJ5Ixc_K9WSPI_-Yl-4BS0RLwdUQZch1fqlpPFe_JoOMEvW6rZk5leYU93wEVI3pEY"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Institutional Security Section -->
+<section class="py-32 bg-primary text-on-primary">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-20">
+<h2 class="text-4xl font-headline font-extrabold mb-4">Uncompromising Security Infrastructure</h2>
+<p class="text-primary-container text-lg max-w-2xl mx-auto">We build on the most secure foundations in the blockchain industry.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center">
+<div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+<span class="material-symbols-outlined text-4xl" data-icon="security">security</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Ouroboros Security</h3>
+<p class="text-primary-container leading-relaxed">Inheriting the security properties of Cardano's peer-reviewed proof-of-stake protocol for ultimate settlement finality.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+<span class="material-symbols-outlined text-4xl" data-icon="code">code</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Formal Verification</h3>
+<p class="text-primary-container leading-relaxed">Our smart contracts are written in Plutus and undergo formal verification to mathematically prove correctness and safety.</p>
+</div>
+<div class="text-center">
+<div class="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+<span class="material-symbols-outlined text-4xl" data-icon="vpn_key">vpn_key</span>
+</div>
+<h3 class="text-2xl font-headline font-bold mb-4">Multi-Sig Vaults</h3>
+<p class="text-primary-container leading-relaxed">Protocol reserves are held in institutional-grade multi-signature vaults, requiring multiple keys for any capital movement.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Audit Trail Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-7xl mx-auto px-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="relative">
+<img alt="Audit Documents" class="rounded-3xl shadow-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNKQ5_Z8JB_EBFaSxSHsVnYdJhCcuWIokN8CRPm7mSHeFMfcjv38IQbXLkoBbWqa1eAZfiQyCe3uf61GsjxvKibLM8gCDlh6HHcETVL9kqD8vbKFOzEqq7j432sZjaIePz7oJdL3j8W5fnU9IUatBp0DThnXqsmcGubIxcdn9Q6GgSVhseJb8R4fp2Nvku0JbLJID-X2TqvbIdISehwcPIx9UbO-FlWtTRcHxsqCj3jSM6FZ4jjyq6oTkCgT-d8qpLvAt8gYtmErA"/>
+</div>
+<div>
+<h2 class="text-4xl font-headline font-extrabold text-on-background mb-6">100% On-Chain Auditability</h2>
+<p class="text-lg text-on-surface-variant mb-8 leading-relaxed">
+                            Transparency isn't just a promise; it's the architecture. Every claim submitted, every vote cast, and every premium payout is permanently recorded on the Cardano ledger.
+                        </p>
+<div class="space-y-6">
+<div class="flex items-start gap-4">
+<div class="p-2 bg-green-100 rounded-lg">
+<span class="material-symbols-outlined text-green-700" data-icon="history">history</span>
+</div>
+<div>
+<h4 class="font-bold text-on-background">Immutable History</h4>
+<p class="text-sm text-on-surface-variant">The entire history of the protocol is available for public inspection, ensuring accountability at every turn.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-2 bg-green-100 rounded-lg">
+<span class="material-symbols-outlined text-green-700" data-icon="search">search</span>
+</div>
+<div>
+<h4 class="font-bold text-on-background">Real-Time Verification</h4>
+<p class="text-sm text-on-surface-variant">Check current coverage ratios and capital pool health in real-time using our open-source block explorer tools.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Ecosystem Partners -->
+<section class="py-24 bg-surface-container-low border-t border-outline-variant/10">
+<div class="max-w-7xl mx-auto px-6 text-center">
+<p class="text-xs font-bold text-on-surface-variant tracking-[0.3em] uppercase mb-12">Trusted by Protocol Leaders</p>
+<div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all">
+<div class="h-10 w-40 bg-on-surface/10 rounded flex items-center justify-center font-bold text-lg">HOSKINSON SEC</div>
+<div class="h-10 w-40 bg-on-surface/10 rounded flex items-center justify-center font-bold text-lg">EMURGO</div>
+<div class="h-10 w-40 bg-on-surface/10 rounded flex items-center justify-center font-bold text-lg">IOG RESEARCH</div>
+<div class="h-10 w-40 bg-on-surface/10 rounded flex items-center justify-center font-bold text-lg">ADALABS</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 bg-white">
+<div class="max-w-5xl mx-auto px-6 text-center">
+<div class="bg-surface-container-high rounded-[3rem] p-16 border border-primary/10 shadow-2xl shadow-primary/5">
+<h2 class="text-4xl md:text-5xl font-headline font-extrabold text-on-background mb-6">Ready to secure the future?</h2>
+<p class="text-xl text-on-surface-variant mb-10 max-w-2xl mx-auto">Join the first decentralized insurance protocol designed for institutional grade assets on Cardano.</p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center">
+  <a href="launch.php">
+<button class="bg-primary text-on-primary px-12 py-5 rounded-full font-headline font-bold text-lg hover:opacity-90 transition-all transform active:scale-95 shadow-xl shadow-primary/20">
+                            Launch Application
+                        </button>
+  </a>
+<button class="bg-white text-primary px-12 py-5 rounded-full font-headline font-bold text-lg hover:bg-slate-50 transition-all border border-primary/20">
+                            Read the Whitepaper
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 px-6 bg-slate-50 dark:bg-slate-950">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto border-t border-slate-200 dark:border-slate-800 pt-12">
+<div class="col-span-1 md:col-span-1">
+<span class="font-manrope font-black text-blue-900 dark:text-blue-100 text-xl block mb-6">CoxyInsure</span>
+<p class="text-slate-500 dark:text-slate-400 font-inter text-xs leading-relaxed max-w-xs">
+                    Building the financial safety net for the decentralized web. Secure, transparent, and community-owned.
+                </p>
+</div>
+<div>
+<h4 class="font-inter text-xs uppercase tracking-widest text-blue-700 dark:text-blue-400 font-bold mb-6">Resources</h4>
+<ul class="space-y-4">
+<li><a class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Docs</a></li>
+<li><a class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Whitepaper</a></li>
+<li><a class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Audit Trail</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-inter text-xs uppercase tracking-widest text-blue-700 dark:text-blue-400 font-bold mb-6">Legal</h4>
+<ul class="space-y-4">
+<li><a class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-inter text-xs uppercase tracking-widest text-blue-700 dark:text-blue-400 font-bold mb-6">Connect</h4>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-500 hover:text-primary cursor-pointer transition-colors" data-icon="share">share</span>
+<span class="material-symbols-outlined text-slate-500 hover:text-primary cursor-pointer transition-colors" data-icon="chat">chat</span>
+<span class="material-symbols-outlined text-slate-500 hover:text-primary cursor-pointer transition-colors" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex justify-between items-center">
+<p class="font-inter text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">© 2024 CoxyInsure Protocol. Institutional Grade Security.</p>
+</div>
+</footer>
+</body></html>

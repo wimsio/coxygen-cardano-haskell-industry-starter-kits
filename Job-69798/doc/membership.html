@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 4. Membership and Identity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>4. Membership and Identity</h1>
+        <p class="meta">Learn how to mint or verify your membership identity before using protected insurance features.</p>
+        
+<p>CoxyInsure uses a membership identity layer to gate protected actions such as pool participation, claims governance, and other trusted protocol actions. Membership acts both as an access token and as a trust signal inside the dApp.</p>
+
+<h2>4.1 Why Membership Matters</h2>
+<ul>
+<li>It verifies that the user has completed the protocol’s required onboarding step.</li>
+<li>It unlocks protected features that should not be available to anonymous visitors.</li>
+<li>It provides a clear visual status badge in the user interface.</li>
+</ul>
+
+<h2>4.2 Minting Membership</h2>
+<ol>
+<li>Open the <strong>Membership</strong> page from the side navigation.</li>
+<li>Review the explanatory banner and requirements.</li>
+<li>Click the mint button.</li>
+<li>Approve the wallet transaction.</li>
+<li>Wait for confirmation and refresh the page if the status badge does not update immediately.</li>
+</ol>
+
+<h2>4.3 Membership Status Indicators</h2>
+<div class="section-card">
+  <p><strong>Verified:</strong> you can access protected sections and proceed to liquidity or governance actions.</p>
+  <p><strong>Not minted:</strong> the dApp may show a membership-required banner or hide certain controls.</p>
+  <p><strong>Admin review:</strong> admin pages can monitor registered users and their purchased covers, but users still need their own identity state to unlock protected actions.</p>
+</div>
+
+<div class="screenshot-container">
+  <img src="images/membership.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="connect-wallet.html">← Connect Wallet and Verify Access</a>
+          <a href="pools.html">Capital Pools and Deposits →</a>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>

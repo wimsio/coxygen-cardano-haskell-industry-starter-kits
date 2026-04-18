@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoxyInsure User Manual — 11. Help, Safety, and FAQ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/manual.css">
+  <script src="assets/template.js"></script>
+  <script src="assets/search-index.js"></script>
+</head>
+<body>
+  <div class="manual-shell">
+    <aside class="sidebar">
+      <div class="sidebar-inner">
+        <div class="brand">CoxyInsure</div>
+        <p class="sidebar-title">User Manual Navigation</p>
+        <nav id="navList" class="nav-list"></nav>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="left-tools">
+          <button class="icon-btn" id="menuToggle" title="Toggle navigation">☰</button>
+          <div class="search-wrap" id="searchWrap">
+            <button class="icon-btn" id="searchToggle" title="Search manual">🔎</button>
+            <div class="search-box">
+              <input id="searchInput" class="search-input" type="search" placeholder="Search keywords in the manual..." />
+            </div>
+            <ul id="searchResults" class="search-results"></ul>
+          </div>
+        </div>
+
+        <div class="manual-title">CoxyInsure User Help Documentation.</div>
+
+        <div class="right-tools">
+          <button class="icon-btn" id="printBtn" title="Print page">🖨️</button>
+        </div>
+      </header>
+
+      <div class="page">
+        <h1>11. Help, Safety, and FAQ</h1>
+        <p class="meta">Review support guidance, safety practices, and quick answers to common questions.</p>
+        
+<h2>11.1 Safety Rules</h2>
+<ul>
+<li>Never share your seed phrase.</li>
+<li>Only approve transactions you understand.</li>
+<li>Check that the connected wallet is the correct one before performing protected actions.</li>
+<li>Read all confirmation states and logs before retrying a failed action.</li>
+</ul>
+
+<h2>11.2 Common Questions</h2>
+<div class="section-card">
+  <p><strong>Why can’t I deposit or vote?</strong><br>You may need to mint membership first or connect the approved wallet.</p>
+  <p><strong>Why is withdrawal disabled?</strong><br>Your wallet may have an active cover and the system may be locking withdrawal to prevent abuse.</p>
+  <p><strong>Why does my claim not appear?</strong><br>Refresh the page and confirm that both the document upload and the claim transaction completed successfully.</p>
+  <p><strong>Why was a claim removed from governance?</strong><br>It may have been rejected or executed by admin review and therefore filtered from the public queue.</p>
+</div>
+
+<h2>11.3 Support Contacts</h2>
+<ul>
+<li>Email: <a href="mailto:admin@coxygen.co">admin@coxygen.co</a></li>
+<li>WhatsApp: +27 73 182 0631</li>
+</ul>
+
+<div class="callout">🛠️ If a page behaves unexpectedly, capture a screenshot, copy the wallet address involved, and note the exact action you were attempting. That information helps support resolve issues faster.</div>
+
+<div class="screenshot-container">
+  <img src="images/error.png" alt="Membership Page Screenshot">
+</div>
+
+        <div class="footer-nav">
+          <a href="admin-portal.html">← Admin Portal Overview</a>
+          <span class="empty">.</span>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script>renderNav();</script>
+  <script src="assets/manual.js"></script>
+</body>
+</html>
