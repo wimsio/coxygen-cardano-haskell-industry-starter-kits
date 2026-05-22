@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Portal — EduCredentials</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body class="page-wrap">
+
+<nav class="navbar">
+  <a class="navbar-brand" href="student.html">
+    <div class="navbar-logo">✦</div>
+    <span class="navbar-title">EduCredentials</span>
+  </a>
+  <div class="navbar-right">
+    <span class="navbar-role">Student</span>
+    <span class="navbar-user" id="navbar-user"></span>
+    <button class="btn btn-outline btn-sm" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,.25);">Sign out</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <aside class="sidebar">
+    <p class="sidebar-section-label" style="margin-top:8px;">My credentials</p>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-view="my-creds" class="active"><span class="nav-icon">◈</span> My credentials</a></li>
+      <li><a href="#" data-view="claim"><span class="nav-icon">↓</span> Claim credential</a></li>
+    </ul>
+    <p class="sidebar-section-label">Sharing</p>
+    <ul class="sidebar-nav">
+      <li><a href="verifier.html"><span class="nav-icon">⊙</span> Open verifier</a></li>
+    </ul>
+  </aside>
+
+  <main class="main">
+
+    <!-- My credentials -->
+    <div id="view-my-creds">
+      <div class="page-header">
+        <h2>My credentials</h2>
+        <p>Your verifiable academic credentials stored on Cardano.</p>
+      </div>
+
+      <div id="cred-list" style="display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">
+        <div style="text-align:center;padding:64px;color:var(--text-mute);grid-column:1/-1">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Claim credential -->
+    <div id="view-claim" style="display:none">
+      <div class="page-header">
+        <h2>Claim a credential</h2>
+        <p>Enter your claim token or paste the full claim link sent by your institution.</p>
+      </div>
+
+      <div class="card" style="max-width:560px">
+        <div class="card-body">
+          <div id="claim-alert" class="alert" style="display:none"></div>
+
+          <div class="form-group">
+            <label class="form-label">Claim token or link <span class="required">*</span></label>
+            <input class="form-control" type="text" id="claim-input" placeholder="Paste token or full URL…"/>
+            <p class="form-hint">Your institution sends this link when they issue a credential to you.</p>
+          </div>
+          <button class="btn btn-gold" id="claim-btn">Claim credential</button>
+        </div>
+      </div>
+
+      <div id="claim-result" style="display:none;margin-top:24px;max-width:560px">
+        <div class="card">
+          <div class="card-header"><h3>Credential details</h3></div>
+          <div class="card-body" id="claim-detail"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Credential detail modal -->
+<div class="modal-overlay" id="cred-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-cred-title">Credential</h3>
+      <button class="btn-close" onclick="closeModal('cred-modal')">×</button>
+    </div>
+    <div class="modal-body" id="modal-cred-body"></div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('cred-modal')">Close</button>
+      <button class="btn btn-primary" id="modal-share-btn">Copy verify link</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  // If not logged in, check for claim token in URL (public claim flow)
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get('token');
+
+  if (!Auth.isLoggedIn() && !urlToken) {
+    window.location.href = 'index.html';
+  }
+
+  initNavbar('student');
+
+  let myCredentials = [];
+
+  // Navigation
+  document.querySelectorAll('[data-view]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      showView(a.dataset.view);
+    });
+  });
+
+  function showView(name) {
+    document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+    document.getElementById(`view-${name}`).style.display = 'block';
+    document.querySelectorAll('[data-view]').forEach(a => a.classList.remove('active'));
+    document.querySelector(`[data-view="${name}"]`)?.classList.add('active');
+    if (name === 'my-creds') loadMyCredentials();
+  }
+
+  // Load credentials (using claim token for students without login)
+  // In a full implementation, students would login and see their own creds.
+  // For the starter kit: load via claim token from URL if present.
+  async function loadMyCredentials() {
+    const container = document.getElementById('cred-list');
+    container.innerHTML = '<div style="text-align:center;padding:64px;color:var(--text-mute);grid-column:1/-1">Loading…</div>';
+
+    if (urlToken) {
+      // Direct claim via URL token
+      try {
+        const token = extractToken(urlToken);
+        const cred = await api.get(`/credentials/claim/${token}`);
+        myCredentials = [cred];
+        renderCredCards([cred]);
+      } catch (err) {
+        container.innerHTML = `<div style="grid-column:1/-1" class="alert alert-error">${escapeHtml(err.error || 'Failed to load credential')}</div>`;
+      }
+      return;
+    }
+
+    // Placeholder for logged-in student credential list
+    // In production: GET /api/credentials/my (filtered by holder_email from JWT)
+    container.innerHTML = `
+      <div style="grid-column:1/-1" class="alert alert-info">
+        To view your credentials, use the claim link sent by your institution, or enter your claim token below.
+        <br/><br/>
+        <button class="btn btn-gold btn-sm" onclick="showView('claim')">Enter claim token →</button>
+      </div>`;
+  }
+
+  function extractToken(input) {
+    // Accept either a raw token or a full URL
+    try {
+      const url = new URL(input);
+      return url.searchParams.get('token') || url.searchParams.get('hash') || input.trim();
+    } catch {
+      return input.trim();
+    }
+  }
+
+  function renderCredCards(creds) {
+    const container = document.getElementById('cred-list');
+    if (!creds.length) {
+      container.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+        <span class="empty-icon">◈</span>
+        <p>No credentials found. Use your claim link from your institution.</p></div>`;
+      return;
+    }
+
+    const typeColors = { diploma: '#1a7a4a', certificate: '#1a3055', micro_credential: '#b87a1a' };
+
+    container.innerHTML = creds.map((c, i) => `
+      <div class="card" style="border-top:4px solid ${typeColors[c.credential_type]||'var(--navy)'};cursor:pointer"
+           onclick="showCredModal(${i})">
+        <div class="card-body">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+            <span class="badge badge-info">${formatType(c.credential_type)}</span>
+            ${statusBadge(c.status)}
+          </div>
+          <h3 style="font-family:'Instrument Serif',serif;margin-bottom:4px">${escapeHtml(c.title)}</h3>
+          <p style="font-size:.85rem;margin-bottom:16px">${escapeHtml(c.institution_name || '')}</p>
+          <div style="font-size:.82rem;color:var(--text-mute)">
+            <div>Awarded to <strong style="color:var(--text)">${escapeHtml(c.holder_name)}</strong></div>
+            <div>Issue date: ${formatDate(c.issue_date)}</div>
+            ${c.grade ? `<div>Grade: <strong style="color:var(--text)">${escapeHtml(c.grade)}</strong></div>` : ''}
+          </div>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+            <div style="font-size:.78rem;color:var(--text-mute);margin-bottom:4px">Credential hash</div>
+            <div class="cred-hash">${c.credential_hash}</div>
+          </div>
+          ${c.tx_hash ? `<div style="margin-top:10px"><span class="badge badge-success">✓ Verified on Cardano</span></div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+
+  let currentModalHash = '';
+
+  function showCredModal(idx) {
+    const c = myCredentials[idx];
+    if (!c) return;
+    currentModalHash = c.credential_hash;
+
+    document.getElementById('modal-cred-title').textContent = c.title;
+
+    const verifyUrl = `${window.location.origin}/verifier.html?hash=${c.credential_hash}`;
+    document.getElementById('modal-share-btn').onclick = () => {
+      navigator.clipboard.writeText(verifyUrl).then(() => toast('Verify link copied!', 'success'));
+    };
+
+    document.getElementById('modal-cred-body').innerHTML = `
+      <div class="cred-detail card" style="background:var(--gold-pale);border-color:var(--gold)">
+        <div class="card-body">
+          <div class="cred-field"><span class="cred-field-label">Awarded to</span><span>${escapeHtml(c.holder_name)}</span></div>
+          <div class="cred-field"><span class="cred-field-label">Institution</span><span>${escapeHtml(c.institution_name||'')}</span></div>
+          <div class="cred-field"><span class="cred-field-label">Type</span><span>${formatType(c.credential_type)}</span></div>
+          <div class="cred-field"><span class="cred-field-label">Issue date</span><span>${formatDate(c.issue_date)}</span></div>
+          ${c.grade ? `<div class="cred-field"><span class="cred-field-label">Grade</span><span>${escapeHtml(c.grade)}</span></div>` : ''}
+          <div class="cred-field"><span class="cred-field-label">Status</span><span>${statusBadge(c.status)}</span></div>
+          <div class="cred-field" style="flex-direction:column;gap:4px">
+            <span class="cred-field-label">Credential hash (on-chain reference)</span>
+            <span class="cred-hash">${c.credential_hash}</span>
+          </div>
+          ${c.tx_hash ? `<div class="cred-field"><span class="cred-field-label">Cardano tx</span><span class="cred-hash">${c.tx_hash}</span></div>` : ''}
+        </div>
+      </div>
+      <div style="margin-top:16px;font-size:.85rem;color:var(--text-mute)">
+        Share your verification link with employers or institutions:
+      </div>
+      <div class="cred-hash" style="margin-top:8px;">${escapeHtml(verifyUrl)}</div>`;
+
+    openModal('cred-modal');
+  }
+
+  // Claim flow
+  document.getElementById('claim-btn').addEventListener('click', async () => {
+    const btn = document.getElementById('claim-btn');
+    const alertBox = document.getElementById('claim-alert');
+    hideAlert(alertBox);
+    const input = document.getElementById('claim-input').value.trim();
+    if (!input) return showAlert(alertBox, 'Please enter a claim token or link', 'error');
+
+    setLoading(btn, true);
+    try {
+      const token = extractToken(input);
+      const cred = await api.get(`/credentials/claim/${token}`);
+
+      document.getElementById('claim-detail').innerHTML = `
+        <div class="cred-field"><span class="cred-field-label">Title</span><span>${escapeHtml(cred.title)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Institution</span><span>${escapeHtml(cred.institution_name||'')}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Issued</span><span>${formatDate(cred.issue_date)}</span></div>
+        ${cred.grade ? `<div class="cred-field"><span class="cred-field-label">Grade</span><span>${escapeHtml(cred.grade)}</span></div>` : ''}
+        <div class="cred-field" style="flex-direction:column;gap:4px">
+          <span class="cred-field-label">Credential hash</span>
+          <span class="cred-hash">${cred.credential_hash}</span>
+        </div>
+        <div style="margin-top:16px">
+          <a href="verifier.html?hash=${cred.credential_hash}" target="_blank" class="btn btn-outline btn-sm">
+            ⊙ Verify this credential
+          </a>
+        </div>`;
+
+      document.getElementById('claim-result').style.display = 'block';
+      myCredentials = [cred];
+      toast('Credential claimed!', 'success');
+    } catch (err) {
+      showAlert(alertBox, err.error || 'Invalid claim token', 'error');
+    } finally {
+      setLoading(btn, false, 'Claim credential');
+    }
+  });
+
+  // If URL has a token, auto-claim
+  if (urlToken) {
+    document.getElementById('claim-input').value = urlToken;
+    setTimeout(() => document.getElementById('claim-btn').click(), 500);
+    showView('claim');
+  } else {
+    loadMyCredentials();
+  }
+</script>
+</body>
+</html>

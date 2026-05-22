@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Verify Credential — EduCredentials</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <style>
+    body { background: var(--navy); }
+    .verify-page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .verify-hero {
+      background: var(--navy);
+      padding: 56px 24px 64px;
+      text-align: center;
+      color: var(--white);
+    }
+    .verify-hero h1 { color: var(--white); margin-bottom: 10px; }
+    .verify-hero p  { color: var(--slate-lite); max-width: 480px; margin: 0 auto; }
+    .verify-main {
+      flex: 1;
+      background: var(--surface);
+      padding: 0 24px 64px;
+    }
+    .verify-card {
+      max-width: 620px;
+      margin: -36px auto 0;
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(15,30,54,.18);
+      overflow: hidden;
+    }
+    .verify-input-area {
+      padding: 32px 36px;
+      border-bottom: 1px solid var(--border);
+    }
+    .verify-input-area h3 { font-size: 1rem; font-family: 'DM Sans',sans-serif; font-weight: 600; margin-bottom: 6px; color: var(--navy); }
+    .verify-input-area p { font-size: .85rem; color: var(--text-mute); margin-bottom: 20px; }
+    .hash-input-row { display: flex; gap: 10px; }
+    .hash-input-row input { flex: 1; }
+    .verify-result-area {
+      padding: 32px 36px;
+    }
+
+    /* Cardano explorer link */
+    .chain-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .82rem;
+      color: var(--navy-lite);
+      text-decoration: none;
+      padding: 6px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-top: 8px;
+      transition: background .15s;
+    }
+    .chain-link:hover { background: var(--surface); text-decoration: none; }
+
+    .verifier-nav {
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+    }
+    .verifier-nav a { color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .verifier-nav-links { display: flex; gap: 20px; }
+    .verifier-nav-links a { color: var(--slate-lite); font-size: .88rem; }
+    .verifier-nav-links a:hover { color: var(--white); text-decoration: none; }
+  </style>
+</head>
+<body>
+<div class="verify-page">
+
+  <!-- Minimal nav -->
+  <nav class="verifier-nav">
+    <a href="index.html">
+      <div class="navbar-logo">✦</div>
+      <span class="navbar-title">EduCredentials</span>
+    </a>
+    <div class="verifier-nav-links">
+      <a href="index.html">Issuer login</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="verify-hero">
+    <h1>Verify a credential</h1>
+    <p>Enter a credential hash or scan a QR code to instantly verify authenticity on the Cardano blockchain.</p>
+  </div>
+
+  <!-- Card -->
+  <div class="verify-main">
+    <div class="verify-card">
+      <div class="verify-input-area">
+        <h3>Enter credential hash</h3>
+        <p>The 56-character hash is printed on all EduCredentials certificates and QR codes.</p>
+        <div class="hash-input-row">
+          <input class="form-control" type="text" id="hash-input"
+            placeholder="e.g. a3f9c2d1e0b7f4a2c5d8e1f3b6c9d2e5a7b0c3d6e9f2"
+            maxlength="64"/>
+          <button class="btn btn-gold" id="verify-btn">Verify</button>
+        </div>
+        <div style="margin-top:16px;font-size:.83rem;color:var(--text-mute)">
+          ⊙ QR code scanning — point your phone camera at any EduCredentials QR code to auto-verify.
+        </div>
+      </div>
+
+      <div class="verify-result-area" id="result-area" style="display:none">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+
+    <!-- Recent verifications disclaimer -->
+    <p style="text-align:center;margin-top:24px;font-size:.8rem;color:var(--text-mute)">
+      All verification requests are logged (without PII) for audit purposes.
+      Cardano network: <strong id="network-label">preview</strong>.
+    </p>
+  </div>
+
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  // Auto-verify from URL query params (?hash=xxx or ?token=xxx)
+  const params = new URLSearchParams(window.location.search);
+  const autoHash  = params.get('hash');
+  const autoToken = params.get('token');
+
+  if (autoHash) {
+    document.getElementById('hash-input').value = autoHash;
+    setTimeout(doVerify, 400);
+  } else if (autoToken) {
+    // token is a claim token → show student page instead
+    window.location.href = `student.html?token=${autoToken}`;
+  }
+
+  document.getElementById('verify-btn').addEventListener('click', doVerify);
+  document.getElementById('hash-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doVerify();
+  });
+
+  async function doVerify() {
+    const input = document.getElementById('hash-input').value.trim();
+    if (!input) return toast('Please enter a credential hash', 'warning');
+
+    // Accept full URL too
+    let hash = input;
+    try {
+      const url = new URL(input);
+      hash = url.searchParams.get('hash') || input;
+    } catch {}
+
+    if (hash.length !== 56) {
+      return toast('Credential hash must be exactly 56 characters', 'warning');
+    }
+
+    const btn = document.getElementById('verify-btn');
+    setLoading(btn, true);
+
+    const resultArea = document.getElementById('result-area');
+    resultArea.style.display = 'block';
+    resultArea.innerHTML = `<div style="text-align:center;padding:32px;color:var(--text-mute)">
+      <span class="spinner" style="border-color:rgba(15,30,54,.2);border-top-color:var(--navy)"></span>
+      <p style="margin-top:12px">Checking database and Cardano chain…</p></div>`;
+
+    try {
+      const data = await api.get(`/verify?hash=${hash}`);
+      renderResult(data);
+    } catch (err) {
+      resultArea.innerHTML = `<div class="alert alert-error">Verification failed: ${escapeHtml(err.error || 'Server error')}</div>`;
+    } finally {
+      setLoading(btn, false, 'Verify');
+    }
+  }
+
+  function renderResult(data) {
+    const el = document.getElementById('result-area');
+
+    if (data.result === 'not_found') {
+      el.innerHTML = `
+        <div class="verify-result invalid">
+          <span class="verify-icon">✗</span>
+          <h2 style="color:var(--amber)">Not found</h2>
+          <p>No credential matches this hash. It may be invalid, or from a different institution.</p>
+        </div>`;
+      return;
+    }
+
+    if (data.result === 'revoked') {
+      const c = data.credential;
+      el.innerHTML = `
+        <div class="verify-result revoked">
+          <span class="verify-icon">⊘</span>
+          <h2 style="color:var(--red)">Credential revoked</h2>
+          <p>This credential was revoked${data.revoked_at ? ' on ' + formatDate(data.revoked_at) : ''}.
+             ${data.revocation_reason ? '<br>Reason: <em>' + escapeHtml(data.revocation_reason) + '</em>' : ''}</p>
+        </div>
+        ${credDetailBlock(c, false)}`;
+      return;
+    }
+
+    if (data.result === 'expired') {
+      const c = data.credential;
+      el.innerHTML = `
+        <div class="verify-result invalid">
+          <span class="verify-icon">⏱</span>
+          <h2 style="color:var(--amber)">Credential expired</h2>
+          <p>This credential expired on ${formatDate(data.expiry_date)}.</p>
+        </div>
+        ${credDetailBlock(c, false)}`;
+      return;
+    }
+
+    // Valid
+    const c   = data.credential;
+    const onChain = data.chain_confirmed;
+    el.innerHTML = `
+      <div class="verify-result valid">
+        <span class="verify-icon">✓</span>
+        <h2 style="color:var(--green)">Credential verified</h2>
+        <p>This credential is authentic and has not been revoked.</p>
+        ${onChain
+          ? `<span class="badge badge-success" style="margin-top:12px;font-size:.85rem">✓ Confirmed on Cardano</span>`
+          : `<span class="badge badge-warning" style="margin-top:12px;font-size:.85rem">⚠ Database verified (chain pending)</span>`
+        }
+      </div>
+      ${credDetailBlock(c, onChain, data.chain)}`;
+  }
+
+  function credDetailBlock(c, onChain, chain) {
+    if (!c) return '';
+    const explorerBase = {
+      preview: 'https://preview.cexplorer.io/tx/',
+      preprod: 'https://preprod.cexplorer.io/tx/',
+      mainnet: 'https://cexplorer.io/tx/',
+    };
+    const network = document.getElementById('network-label').textContent || 'preview';
+    const explorer = explorerBase[network] || explorerBase.preview;
+
+    return `
+      <div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border)">
+        <h3 style="margin-bottom:16px;font-size:1rem;font-family:'DM Sans',sans-serif;font-weight:600">Credential details</h3>
+        <div class="cred-field"><span class="cred-field-label">Title</span><span>${escapeHtml(c.title)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Holder</span><span>${escapeHtml(c.holder_name)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Issued by</span><span>${escapeHtml(c.institution_name||'Unknown')}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Type</span><span>${formatType(c.credential_type)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Issue date</span><span>${formatDate(c.issue_date)}</span></div>
+        ${c.expiry_date ? `<div class="cred-field"><span class="cred-field-label">Expiry date</span><span>${formatDate(c.expiry_date)}</span></div>` : ''}
+        ${c.grade ? `<div class="cred-field"><span class="cred-field-label">Grade</span><span>${escapeHtml(c.grade)}</span></div>` : ''}
+        <div class="cred-field" style="flex-direction:column;gap:4px;margin-top:8px">
+          <span class="cred-field-label">Credential hash</span>
+          <span class="cred-hash">${escapeHtml(c.credential_hash)}</span>
+        </div>
+        ${chain?.tx_hash ? `
+          <div class="cred-field" style="flex-direction:column;gap:4px;margin-top:8px">
+            <span class="cred-field-label">Cardano transaction</span>
+            <span class="cred-hash">${escapeHtml(chain.tx_hash)}</span>
+            <a href="${explorer}${chain.tx_hash}" target="_blank" rel="noopener" class="chain-link">
+              ⬡ View on Cardano explorer ↗
+            </a>
+          </div>` : ''}
+      </div>`;
+  }
+
+  // Load network from API health
+  api.get && fetch(`${window.API_BASE || '/api'}/health`)
+    .then(r => r.json())
+    .catch(() => ({}))
+    .then(() => {
+      const net = 'preview'; // could be returned from health endpoint
+      document.getElementById('network-label').textContent = net;
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+﻿{
+  "name": "edu-credentials-backend",
+  "version": "1.0.0",
+  "description": "Education Credentials API",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest --forceExit --detectOpenHandles"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "@blockfrost/blockfrost-js": "^5.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "express-validator": "^7.0.1",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.6.5",
+    "qrcode": "^1.5.3",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.2",
+    "supertest": "^6.3.4"
+  },
+  "engines": { "node": ">=18.0.0" },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/tests/**/*.test.js"]
+  }
+}

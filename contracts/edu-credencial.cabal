@@ -1,0 +1,40 @@
+cabal-version:      2.4
+name:               edu-credentials-contracts
+version:            0.1.0.0
+synopsis:           Plutus minting policy for Education Credentials on Cardano
+author:             EduCredentials Team
+license:            Apache-2.0
+
+common common-all
+  default-language: Haskell2010
+  ghc-options:
+    -Wall
+    -Wcompat
+    -fobject-code
+    -fno-ignore-interface-pragmas
+    -fno-omit-interface-pragmas
+    -fplugin-opt PlutusTx.Plugin:defer-errors
+  build-depends:
+      base ^>= 4.14
+    , plutus-tx
+    , plutus-tx-plugin
+    , plutus-ledger-api
+    , plutus-script-utils
+    , bytestring
+    , aeson
+
+library
+  import:          common-all
+  hs-source-dirs:  .
+  exposed-modules: CredentialPolicy
+
+executable compile-policy
+  import:          common-all
+  hs-source-dirs:  .
+  main-is:         CompilePolicy.hs
+  build-depends:
+      edu-credentials-contracts
+    , plutus-ledger-api
+    , cardano-api
+    , serialise
+    , base16-bytestring
