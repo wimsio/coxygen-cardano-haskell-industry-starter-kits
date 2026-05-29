@@ -1,0 +1,7 @@
+﻿backend/node_modules/
+backend/.env
+*.log
+.DS_Store
+Thumbs.db
+contracts/policy.plutus
+keys/

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduCredentials — Decentralised Academic Credentials on Cardano</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <style>
+    body { background: var(--navy); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+
+    .landing { max-width: 460px; width: 100%; }
+
+    .brand { text-align: center; margin-bottom: 40px; }
+    .brand-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 72px; height: 72px;
+      background: var(--gold);
+      border-radius: 18px;
+      font-family: 'Instrument Serif', serif;
+      font-size: 2rem;
+      color: var(--navy);
+      margin-bottom: 16px;
+      box-shadow: 0 8px 32px rgba(201,150,61,.35);
+    }
+    .brand h1 { color: var(--white); font-size: 1.9rem; margin-bottom: 4px; }
+    .brand p  { color: var(--slate-lite); font-size: .9rem; }
+
+    .login-card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 36px 32px;
+      box-shadow: 0 24px 64px rgba(0,0,0,.4);
+    }
+    .login-card h2 { font-size: 1.25rem; margin-bottom: 6px; }
+    .login-card > p { font-size: .88rem; color: var(--text-mute); margin-bottom: 28px; }
+
+    .role-tabs {
+      display: flex;
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 4px;
+      margin-bottom: 24px;
+      gap: 2px;
+    }
+    .role-tab {
+      flex: 1;
+      padding: 7px 4px;
+      text-align: center;
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-mute);
+      transition: all .15s;
+      border: none;
+      background: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .role-tab.active { background: var(--white); color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,.1); }
+
+    .verifier-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: .85rem;
+      color: var(--slate-lite);
+    }
+    .verifier-link a { color: var(--gold-lite); }
+
+    .cardano-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 32px;
+      font-size: .78rem;
+      color: var(--slate-lite);
+    }
+    .cardano-badge span { opacity: .5; font-size: 1.1rem; }
+  </style>
+</head>
+<body>
+<div class="landing">
+  <div class="brand">
+    <div class="brand-mark">✦</div>
+    <h1>EduCredentials</h1>
+    <p>Verifiable academic credentials anchored on Cardano</p>
+  </div>
+
+  <div class="login-card">
+    <h2>Sign in</h2>
+    <p>Access your dashboard to issue, view, or manage credentials.</p>
+
+    <div class="role-tabs">
+      <button class="role-tab active" data-role="issuer">Issuer</button>
+      <button class="role-tab" data-role="student">Student</button>
+    </div>
+
+    <div id="alert-box" class="alert alert-error" style="display:none"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label class="form-label" for="email">Email address <span class="required">*</span></label>
+        <input class="form-control" type="email" id="email" placeholder="you@institution.edu" required/>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="password">Password <span class="required">*</span></label>
+        <input class="form-control" type="password" id="password" placeholder="Enter your password" required/>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;" id="login-btn">
+        Sign in
+      </button>
+    </form>
+
+    <p class="verifier-link">
+      Verifying a credential? <a href="verifier.html">Open verifier →</a>
+    </p>
+  </div>
+
+  <div class="cardano-badge">
+    <span>⬡</span> Secured by Cardano blockchain
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  // Check if already logged in
+  if (Auth.isLoggedIn()) {
+    const user = Auth.getUser();
+    window.location.href = user?.role === 'institution_admin' ? 'issuer.html' : 'student.html';
+  }
+
+  // Role tabs
+  let selectedRole = 'issuer';
+  document.querySelectorAll('.role-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      selectedRole = tab.dataset.role;
+    });
+  });
+
+  // Handle URL params
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('session') === 'expired') {
+    showAlert(document.getElementById('alert-box'), 'Your session has expired. Please sign in again.', 'error');
+  }
+
+  // Login form
+  document.getElementById('login-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const alertBox = document.getElementById('alert-box');
+    hideAlert(alertBox);
+    setLoading(btn, true);
+
+    try {
+      const data = await api.post('/auth/login', {
+        email:    document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value,
+      });
+
+      Auth.setToken(data.token);
+      Auth.setUser(data.user);
+
+      // Route by role
+      const role = data.user.role;
+      if (role === 'institution_admin' || role === 'super_admin') {
+        window.location.href = 'issuer.html';
+      } else {
+        window.location.href = 'student.html';
+      }
+    } catch (err) {
+      showAlert(alertBox, err.error || 'Login failed — check your credentials', 'error');
+      setLoading(btn, false, 'Sign in');
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Issuer Dashboard — EduCredentials</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body class="page-wrap">
+
+<!-- Navbar -->
+<nav class="navbar">
+  <a class="navbar-brand" href="issuer.html">
+    <div class="navbar-logo">✦</div>
+    <span class="navbar-title">EduCredentials</span>
+  </a>
+  <div class="navbar-right">
+    <span class="navbar-role">Issuer</span>
+    <span class="navbar-user" id="navbar-user"></span>
+    <button class="btn btn-outline btn-sm" id="logout-btn" style="color:#fff;border-color:rgba(255,255,255,.25);">Sign out</button>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <p class="sidebar-section-label" style="margin-top:8px;">Credentials</p>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-view="dashboard" class="active"><span class="nav-icon">◈</span> Dashboard</a></li>
+      <li><a href="#" data-view="issue"><span class="nav-icon">＋</span> Issue Credential</a></li>
+      <li><a href="#" data-view="list"><span class="nav-icon">☰</span> All Credentials</a></li>
+    </ul>
+    <p class="sidebar-section-label">Institution</p>
+    <ul class="sidebar-nav">
+      <li><a href="#" data-view="settings"><span class="nav-icon">⚙</span> Settings</a></li>
+    </ul>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- ===== DASHBOARD VIEW ===== -->
+    <div id="view-dashboard">
+      <div class="page-header">
+        <h2>Dashboard</h2>
+        <p id="inst-name-display">Loading institution...</p>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card"><div class="stat-label">Total issued</div><div class="stat-value" id="stat-total">—</div></div>
+        <div class="stat-card"><div class="stat-label">Claimed</div><div class="stat-value" id="stat-claimed">—</div></div>
+        <div class="stat-card"><div class="stat-label">Revoked</div><div class="stat-value" id="stat-revoked">—</div></div>
+        <div class="stat-card"><div class="stat-label">This month</div><div class="stat-value" id="stat-month">—</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Recent credentials</h3>
+          <button class="btn btn-gold btn-sm" data-goto="issue">+ Issue new</button>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th>Holder</th><th>Title</th><th>Type</th><th>Issue date</th><th>Status</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="recent-tbody">
+                <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-mute)">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ISSUE VIEW ===== -->
+    <div id="view-issue" style="display:none">
+      <div class="page-header">
+        <h2>Issue a credential</h2>
+        <p>Complete all required fields. The credential hash will be anchored on Cardano.</p>
+      </div>
+
+      <div class="card" style="max-width:720px">
+        <div class="card-body">
+          <div id="issue-alert" class="alert" style="display:none"></div>
+
+          <form id="issue-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Credential type <span class="required">*</span></label>
+                <select class="form-control" id="f-type" required>
+                  <option value="">Select type…</option>
+                  <option value="diploma">Diploma</option>
+                  <option value="certificate">Certificate</option>
+                  <option value="micro_credential">Micro-credential</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Issue date <span class="required">*</span></label>
+                <input class="form-control" type="date" id="f-issue-date" required/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Credential title <span class="required">*</span></label>
+              <input class="form-control" type="text" id="f-title" placeholder="e.g. Bachelor of Science in Computer Science" required/>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Student full name <span class="required">*</span></label>
+                <input class="form-control" type="text" id="f-name" placeholder="Full legal name" required/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Student email <span class="required">*</span></label>
+                <input class="form-control" type="email" id="f-email" placeholder="student@example.com" required/>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Grade / Classification</label>
+                <input class="form-control" type="text" id="f-grade" placeholder="e.g. First Class Honours"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Expiry date (optional)</label>
+                <input class="form-control" type="date" id="f-expiry"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Description (optional)</label>
+              <textarea class="form-control" id="f-desc" rows="3" placeholder="Brief description of the credential…" style="resize:vertical"></textarea>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-top:8px">
+              <button type="submit" class="btn btn-gold" id="issue-btn">Issue credential</button>
+              <button type="button" class="btn btn-outline" data-goto="list">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== LIST VIEW ===== -->
+    <div id="view-list" style="display:none">
+      <div class="page-header" style="display:flex;align-items:flex-start;justify-content:space-between">
+        <div><h2>All credentials</h2><p>Full list of issued credentials for your institution.</p></div>
+        <button class="btn btn-gold" data-goto="issue">+ Issue new</button>
+      </div>
+
+      <div class="search-bar">
+        <input class="form-control" type="text" id="search-input" placeholder="Search by name, email, or title…"/>
+        <select class="form-control" id="filter-status" style="max-width:160px">
+          <option value="">All statuses</option>
+          <option value="issued">Issued</option>
+          <option value="revoked">Revoked</option>
+        </select>
+        <select class="form-control" id="filter-type" style="max-width:180px">
+          <option value="">All types</option>
+          <option value="diploma">Diploma</option>
+          <option value="certificate">Certificate</option>
+          <option value="micro_credential">Micro-credential</option>
+        </select>
+        <button class="btn btn-outline" id="search-btn">Search</button>
+      </div>
+
+      <div class="card">
+        <div class="card-body" style="padding:0">
+          <div class="table-wrap">
+            <table>
+              <thead><tr>
+                <th>Holder</th><th>Title</th><th>Type</th><th>Issued</th><th>Status</th><th>On-chain</th><th>Actions</th>
+              </tr></thead>
+              <tbody id="list-tbody">
+                <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-mute)">Loading…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SETTINGS VIEW ===== -->
+    <div id="view-settings" style="display:none">
+      <div class="page-header">
+        <h2>Institution settings</h2>
+        <p>Cardano policy and wallet configuration.</p>
+      </div>
+      <div class="card" style="max-width:640px">
+        <div class="card-body" id="settings-body">Loading…</div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Issue success modal -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>✓ Credential issued</h3>
+      <button class="btn-close" onclick="closeModal('success-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-success" id="modal-msg"></div>
+      <div class="cred-detail card" style="margin-top:16px">
+        <div class="card-body" id="modal-detail"></div>
+      </div>
+      <div class="qr-wrap">
+        <p style="font-size:.85rem;color:var(--text-mute);margin-bottom:12px">Share this QR code or link with the student:</p>
+        <img id="modal-qr" src="" alt="QR code"/>
+        <p><a id="modal-link" href="#" target="_blank" style="font-size:.82rem;word-break:break-all"></a></p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('success-modal')">Close</button>
+      <button class="btn btn-primary" onclick="copyClaimLink()">Copy claim link</button>
+    </div>
+  </div>
+</div>
+
+<!-- Revoke confirmation modal -->
+<div class="modal-overlay" id="revoke-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Revoke credential</h3>
+      <button class="btn-close" onclick="closeModal('revoke-modal')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:16px">This action cannot be undone. The credential will be marked as revoked in the database and the on-chain token can then be burned.</p>
+      <div class="form-group">
+        <label class="form-label">Reason for revocation (optional)</label>
+        <textarea class="form-control" id="revoke-reason" rows="2" placeholder="e.g. Issued in error"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('revoke-modal')">Cancel</button>
+      <button class="btn btn-danger" id="revoke-confirm-btn">Confirm revoke</button>
+    </div>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+<script>
+  // Guard
+  if (!Auth.isLoggedIn()) window.location.href = 'index.html';
+  initNavbar('issuer');
+
+  let allCredentials = [];
+  let revokeTargetId = null;
+  let currentClaimUrl = '';
+
+  // ---- Navigation ----
+  function showView(name) {
+    document.querySelectorAll('[id^="view-"]').forEach(v => v.style.display = 'none');
+    document.getElementById(`view-${name}`).style.display = 'block';
+    document.querySelectorAll('[data-view]').forEach(a => a.classList.remove('active'));
+    document.querySelector(`[data-view="${name}"]`)?.classList.add('active');
+    if (name === 'dashboard') loadDashboard();
+    if (name === 'list') loadList();
+    if (name === 'settings') loadSettings();
+  }
+
+  document.querySelectorAll('[data-view]').forEach(a => {
+    a.addEventListener('click', e => { e.preventDefault(); showView(a.dataset.view); });
+  });
+  document.querySelectorAll('[data-goto]').forEach(b => {
+    b.addEventListener('click', () => showView(b.dataset.goto));
+  });
+
+  // ---- Dashboard ----
+  async function loadDashboard() {
+    try {
+      const me = await api.get('/auth/me');
+      document.getElementById('inst-name-display').textContent = me.institution_name || '';
+
+      const creds = await api.get('/credentials');
+      allCredentials = creds;
+      const now = new Date();
+      const thisMonth = creds.filter(c => new Date(c.created_at).getMonth() === now.getMonth()).length;
+
+      document.getElementById('stat-total').textContent   = creds.length;
+      document.getElementById('stat-claimed').textContent = creds.filter(c => c.claimed_at).length;
+      document.getElementById('stat-revoked').textContent = creds.filter(c => c.status === 'revoked').length;
+      document.getElementById('stat-month').textContent   = thisMonth;
+
+      renderTable('recent-tbody', creds.slice(0, 8));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // ---- List ----
+  async function loadList(params = {}) {
+    const tbody = document.getElementById('list-tbody');
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-mute)">Loading…</td></tr>';
+    try {
+      const qs = new URLSearchParams(params).toString();
+      const creds = await api.get(`/credentials${qs ? '?' + qs : ''}`);
+      allCredentials = creds;
+      renderTable('list-tbody', creds, true);
+    } catch (err) {
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--red);padding:24px">${escapeHtml(err.error || 'Failed to load')}</td></tr>`;
+    }
+  }
+
+  document.getElementById('search-btn')?.addEventListener('click', () => {
+    loadList({
+      search: document.getElementById('search-input').value.trim(),
+      status: document.getElementById('filter-status').value,
+      type:   document.getElementById('filter-type').value,
+    });
+  });
+
+  function renderTable(tbodyId, creds, showChain = false) {
+    const tbody = document.getElementById(tbodyId);
+    if (!creds.length) {
+      tbody.innerHTML = `<tr><td colspan="${showChain ? 7 : 6}" style="text-align:center;padding:48px;color:var(--text-mute)">
+        <span style="font-size:2rem;display:block;margin-bottom:8px;opacity:.3">◈</span>No credentials yet</td></tr>`;
+      return;
+    }
+    tbody.innerHTML = creds.map(c => `
+      <tr>
+        <td><strong>${escapeHtml(c.holder_name)}</strong><br><small style="color:var(--text-mute)">${escapeHtml(c.holder_email)}</small></td>
+        <td>${escapeHtml(c.title)}</td>
+        <td><span class="badge badge-info">${formatType(c.credential_type)}</span></td>
+        <td>${formatDate(c.issue_date)}</td>
+        <td>${statusBadge(c.status)}</td>
+        ${showChain ? `<td>${c.tx_hash ? `<span class="badge badge-success">✓ On-chain</span>` : '<span class="badge badge-warning">Pending</span>'}</td>` : ''}
+        <td style="white-space:nowrap">
+          <button class="btn btn-outline btn-sm" onclick="viewDetail('${c.id}')">View</button>
+          ${c.status !== 'revoked' ? `<button class="btn btn-danger btn-sm" onclick="startRevoke('${c.id}')">Revoke</button>` : ''}
+        </td>
+      </tr>`).join('');
+  }
+
+  // ---- Issue form ----
+  document.getElementById('issue-form').addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('issue-btn');
+    const alertBox = document.getElementById('issue-alert');
+    hideAlert(alertBox);
+    setLoading(btn, true);
+
+    const payload = {
+      credential_type: document.getElementById('f-type').value,
+      title:           document.getElementById('f-title').value.trim(),
+      holder_name:     document.getElementById('f-name').value.trim(),
+      holder_email:    document.getElementById('f-email').value.trim(),
+      issue_date:      document.getElementById('f-issue-date').value,
+      grade:           document.getElementById('f-grade').value.trim() || undefined,
+      expiry_date:     document.getElementById('f-expiry').value || undefined,
+      description:     document.getElementById('f-desc').value.trim() || undefined,
+    };
+
+    try {
+      const result = await api.post('/credentials', payload);
+      const cred   = result.credential;
+      currentClaimUrl = result.claim_url;
+
+      document.getElementById('modal-msg').textContent = `Credential successfully issued to ${cred.holder_name}.`;
+      document.getElementById('modal-qr').src = result.qr_code;
+      document.getElementById('modal-link').href = result.claim_url;
+      document.getElementById('modal-link').textContent = result.claim_url;
+      document.getElementById('modal-detail').innerHTML = `
+        <div class="cred-field"><span class="cred-field-label">Title</span><span>${escapeHtml(cred.title)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Holder</span><span>${escapeHtml(cred.holder_name)}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Credential hash</span><span class="cred-hash">${cred.credential_hash}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Issue date</span><span>${formatDate(cred.issue_date)}</span></div>
+      `;
+      openModal('success-modal');
+      document.getElementById('issue-form').reset();
+    } catch (err) {
+      showAlert(alertBox, err.error || JSON.stringify(err.errors?.[0]?.msg) || 'Failed to issue credential', 'error');
+    } finally {
+      setLoading(btn, false, 'Issue credential');
+    }
+  });
+
+  function copyClaimLink() {
+    navigator.clipboard.writeText(currentClaimUrl).then(() => toast('Claim link copied!', 'success'));
+  }
+
+  // ---- Revoke ----
+  function startRevoke(id) {
+    revokeTargetId = id;
+    document.getElementById('revoke-reason').value = '';
+    openModal('revoke-modal');
+  }
+
+  document.getElementById('revoke-confirm-btn').addEventListener('click', async () => {
+    if (!revokeTargetId) return;
+    const btn = document.getElementById('revoke-confirm-btn');
+    setLoading(btn, true);
+    try {
+      await api.patch(`/credentials/${revokeTargetId}/revoke`, {
+        reason: document.getElementById('revoke-reason').value.trim() || undefined
+      });
+      closeModal('revoke-modal');
+      toast('Credential revoked', 'success');
+      loadList();
+    } catch (err) {
+      toast(err.error || 'Revocation failed', 'error');
+    } finally {
+      setLoading(btn, false, 'Confirm revoke');
+    }
+  });
+
+  function viewDetail(id) {
+    const cred = allCredentials.find(c => c.id === id);
+    if (!cred) return;
+    toast(`Hash: ${cred.credential_hash}`, 'info');
+  }
+
+  // ---- Settings ----
+  async function loadSettings() {
+    try {
+      const me = await api.get('/auth/me');
+      document.getElementById('settings-body').innerHTML = `
+        <h3 style="margin-bottom:20px">${escapeHtml(me.institution_name || 'Institution')}</h3>
+        <div class="cred-field"><span class="cred-field-label">Wallet address</span><span class="cred-hash">${escapeHtml(me.wallet_address || 'Not set')}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Policy ID</span><span class="cred-hash">${escapeHtml(me.policy_id || 'Not compiled yet')}</span></div>
+        <div class="cred-field"><span class="cred-field-label">Network</span><span>${escapeHtml(me.network || 'preview')}</span></div>
+        <div class="alert alert-info" style="margin-top:20px">
+          To update your Plutus PolicyId: compile <code>CredentialPolicy.hs</code> with your issuer PubKeyHash,
+          then update <code>PLUTUS_POLICY_ID</code> in your <code>.env</code> file and restart the server.
+        </div>`;
+    } catch (err) {
+      document.getElementById('settings-body').textContent = 'Failed to load settings.';
+    }
+  }
+
+  // Init
+  loadDashboard();
+</script>
+</body>
+</html>
